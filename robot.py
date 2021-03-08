@@ -4,7 +4,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import logging
 from abc import abstractmethod, ABCMeta
 
@@ -463,3 +463,155 @@ class PostAd5(IPostAds):
         # submit
         self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div[1]/div/div/div/'
                                           'form/fieldset/div[6]/div/button').click()
+
+
+class PostAd6(IPostAds):
+    """ https://agahi90.ir/ """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        from PIL import Image
+        import pytesseract
+
+        # navigate to login page
+        self.driver.find_element_by_xpath('/html/body/form/div[2]/header/div/div[1]/div/ul[2]/li[1]/a').click()
+
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="mainContent_TextBox1"]').send_keys(username)
+        sleep(1)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="mainContent_TextBox2"]').send_keys(password)
+
+        # captcha
+        with open('index.jpg', 'wb') as file:
+            file.write(self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/div/div/'
+                                                         'div[1]/div/div[1]/div[1]/div/img').screenshot_as_png)
+        sleep(2)
+        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+        captcha = pytesseract.image_to_string(Image.open('index.jpg'))
+
+        sleep(2)
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtValidate"]').send_keys(captcha)
+
+        # login button
+        try:
+            sleep(1)
+            self.driver.find_element_by_xpath('//*[@id="mainContent_Button1"]').click()
+
+        except NoSuchElementException:
+            pass
+
+        sleep(2)
+        self.post()
+
+    def post(self):
+        try:
+            self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/'
+                                              'div/div[2]/div[1]/div/div[1]/div[1]/a').click()
+
+        except NoSuchElementException:
+            self.login()
+        sleep(1)
+
+        """ INFO """
+        group = 'كامپيـوتر'
+        sub_group = 'خدمات اينترنت و شبكه'
+
+        province = 'آذربایجان شرقی'
+        city = 'آذرشهر'
+
+        title = 'sdfsdf'
+        short_description = 'fsdfsf'
+        description = 'sdfsdf'
+        keywords = 'fsdfsf'
+        website_link = 'http://example.com'
+        price = 'fsdfsfs'
+        picture = r'C:\Users\Sabalan\Pictures\nature.jpg'
+        address = 'خیابان فلان-پلاک1111'
+
+        # select group & sub-group
+        self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/div[2]/div/div/'
+                                          'div[1]/div[2]/div[1]/div/div[1]').click()
+        sleep(1)
+
+        element = 1
+        loop = True
+        while loop:
+            try:
+                group_txt = str(self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/div[2]/'
+                                                              'div/div/div[1]/div[2]/div[1]/div/div[2]/div/div['
+                                                              + str(element) + ']').text)
+                group_txt = group_txt.split()
+                if group_txt[0] == group and " ".join(group_txt[2:]) == sub_group:
+                    self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/div[2]/'
+                                                      'div/div/div[1]/div[2]/div[1]/div/div[2]/div/div['
+                                                      + str(element) + ']').click()
+                    loop = False
+
+                element += 1
+
+            except NoSuchElementException:
+                print("Not Found")
+                loop = False
+
+        # select province & city
+
+        self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/div[2]/div/'
+                                          'div/div[1]/div[2]/div[2]/div/div[1]').click()
+        sleep(2)
+        element = 1
+        loop = True
+        while loop:
+            try:
+                city_txt = str(self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/'
+                                                                 'div[2]/div/div/div[1]/div[2]/div[2]/div/div[2]/'
+                                                                 'div/div[' + str(element) + ']').text)
+
+                try:
+                    city_txt = city_txt.split("»")
+                    if city_txt[0].strip() == province and city_txt[1].strip() == city:
+                        self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/'
+                                                          'div[2]/div/div/div[1]/div[2]/div[2]/div/div[2]/'
+                                                          'div/div[' + str(element) + ']').click()
+                        loop = False
+                except IndexError:
+                    pass
+
+                element += 1
+
+            except NoSuchElementException:
+                print("Not Found")
+                loop = False
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtOnvan"]').send_keys(title)
+
+        # short description
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtDesciption"]').send_keys(short_description)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtText"]').send_keys(description)
+        sleep(1)
+
+        # keywords
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtKeyWord"]').send_keys(keywords)
+
+        # website link
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtLink"]').send_keys(website_link)
+
+        # price
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtPrice"]').send_keys(price)
+        sleep(1)
+
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="mainContent_FileUpload1"]').send_keys(picture)
+
+        # Address
+        self.driver.find_element_by_xpath('//*[@id="mainContent_txtAddress"]').send_keys(address)
+
+        # submit
+        self.driver.find_element_by_xpath('//*[@id="mainContent_Button1"]').click()
+        sleep(2)
+
