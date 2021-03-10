@@ -1,13 +1,29 @@
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.support.select import Select
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 import logging
 from abc import abstractmethod, ABCMeta
+import sys
 
+
+# Convert String to class object
+def str_to_class(class_name):
+    return getattr(sys.modules[__name__], class_name)
+
+
+# logging configuration
 logging.basicConfig(filename='robot.log', filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s')
+
+# WEBSITE URLS
+links = [
+    'http://www.soodiran.com', 'https://www.shahr24.com/', 'http://digiagahi.com', 'https://persianagahi.com',
+    'http://parsu.ir', 'https://agahi90.ir/', 'https://www.niaz118.com/', 'http://www.decornama.com',
+    'http://www.tehran-tejarat.com', 'https://vista.ir/ads/', 'https://agahiname.com/',
+    'https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/', 'https://parstabligh.org/user_login/',
+    'https://www.panikad.com/auth/login/', 'https://www.novintabligh.com/login.html',
+]
 
 
 class IPostAds(metaclass=ABCMeta):
@@ -31,7 +47,7 @@ class IPostAds(metaclass=ABCMeta):
         """ Post our ads """
 
 
-class PostAds1(IPostAds):
+class PostAd1(IPostAds):
     """ http://www.soodiran.com """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
@@ -111,7 +127,7 @@ class PostAds1(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="form"]/tbody/tr[11]/td[2]/input').click()
 
 
-class PostAds2(IPostAds):
+class PostAd2(IPostAds):
     """ https://www.shahr24.com/ """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
@@ -343,7 +359,7 @@ class PostAd4(IPostAds):
         # group
         select_group = Select(self.driver.find_element_by_id('edit-taxonomy-catalog-und-hierarchical-select-selects-0'))
         select_group.select_by_visible_text(group)
-        sleep(5)
+        sleep(8)
 
         # sub group
         select_sub_group = Select(self.driver.find_element_by_name('taxonomy_catalog[und][hierarchical_select]'
@@ -555,7 +571,7 @@ class PostAd6(IPostAds):
                 element += 1
 
             except NoSuchElementException:
-                print("Not Found")
+                logging.error("Not Found - https://agahi90.ir/ ")
                 loop = False
 
         # select province & city
@@ -584,7 +600,7 @@ class PostAd6(IPostAds):
                 element += 1
 
             except NoSuchElementException:
-                print("Not Found")
+                logging.error("Not Found - https://agahi90.ir/ ")
                 loop = False
 
         # title
@@ -1241,6 +1257,210 @@ class PostAd13(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="submit"]').click()
 
 
+class PostAd14(IPostAds):
+    """ https://www.panikad.com/auth/login/ """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="Username"]').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="Password"]').send_keys(password)
+
+        # CAPTCHA delay time
+        sleep(12)
+
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div/form/fieldset/div[5]/div/button').click()
+
+        self.post()
+
+    def post(self):
+        try:
+            self.driver.find_element_by_xpath('/html/body/header/div[3]/a').click()
+            sleep(4)
+
+        except NoSuchElementException:
+            logging.error("Captcha didn't entered correctly - https://www.panikad.com/auth/login/ ")
+
+        """ INFO """
+        title = 'لیبلیللبیلیلیبلیلبلی'
+        description = 'بیسبسبیسبیبسیبسبیبیسب'
+        short_description = 'خهشیتشهیتسهخبیخرخشبتح'
+        keywords = 'خهیتشخهستیشسهخیتیتهسشیخهشیش'
+        price = '232323'
+        group = 'کامپیوتر'
+        sub_group = 'برنامه نویسی'
+        province = 'خراسان رضوی'
+        city = 'مشهد'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+        address = 'شسیسشیسششسشیشسیشیشسی'
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="Title"]').send_keys(title)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="NoticeData"]').send_keys(description)
+
+        # short description
+        self.driver.find_element_by_xpath('//*[@id="Description"]').send_keys(short_description)
+
+        # keywords
+        self.driver.find_element_by_xpath('//*[@id="tags-selectized"]').send_keys(keywords)
+
+        # price
+        self.driver.find_element_by_xpath('//*[@id="ProductPrice"]').send_keys(price)
+
+        # group
+        select_group = Select(self.driver.find_element_by_id('Cats'))
+        select_group.select_by_visible_text(group)
+        sleep(1)
+
+        # sub group
+        select_sub_group = Select(self.driver.find_element_by_id('SubCats'))
+        select_sub_group.select_by_visible_text(sub_group)
+
+        # province
+        select_province = Select(self.driver.find_element_by_id('States'))
+        select_province.select_by_visible_text(province)
+        sleep(1)
+
+        # city
+        select_city = Select(self.driver.find_element_by_id('Cities'))
+        select_city.select_by_visible_text(city)
+
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="imgup"]').send_keys(picture)
+
+        # address
+        self.driver.find_element_by_xpath('//*[@id="Address"]').clear()
+        self.driver.find_element_by_xpath('//*[@id="Address"]').send_keys(address)
+
+        # submit button
+        self.driver.find_element_by_xpath('/html/body/div/div[1]/div[2]/form/div[2]/div[9]/button').click()
+
+
+class PostAd15(IPostAds):
+    """ https://www.novintabligh.com/login.html """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('/html/body/div[3]/div[1]/table/tbody/tr[4]/td[2]/input').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('/html/body/div[3]/div[1]/table/tbody/tr[6]/td[2]/input').send_keys(password)
+
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div[3]/div[1]/table/tbody/tr[8]/th/input').click()
+        sleep(2)
+
+        self.post()
+
+    def post(self):
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/'
+                                          'tr[1]/td/table/tbody/tr[1]/td/div/div[1]/a').click()
+
+        """ INFO """
+        group = 'كامپيـوتر'
+        sub_group = 'گرافيك كامپيوتري'
+        title = 'سیبسیسبیسب'
+        description = 'بسیبییبخنرهیتسهتبصثب'
+        keywords = 'بیسبسببسبسبیبب'
+        phone = '09151233212'
+        price = '2000'
+        address = 'بیسبسبسیبمخنیحخسنر'
+        city = '  مشهد'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+
+        # group
+        select_group = Select(self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/'
+                                                                'tr/td[1]/table/tbody/tr[1]/td/table[1]/tbody/'
+                                                                'tr/td/table/tbody/tr[4]/td[2]/select'))
+
+        select_group.select_by_visible_text(group + " » " + sub_group)
+
+        # title
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/'
+                                          'table/tbody/tr[1]/td/table[1]/tbody/tr/td/table/tbody/'
+                                          'tr[6]/td[2]/input').send_keys(title)
+
+        # description
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/'
+                                          'tr/td[1]/table/tbody/tr[1]/td/table[1]/tbody/tr/'
+                                          'td/table/tbody/tr[8]/td[2]/textarea').send_keys(description)
+
+        # keywords
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/'
+                                          'table/tbody/tr[1]/td/table[1]/tbody/tr/td/table/tbody/tr[10]/'
+                                          'td/table/tbody/tr/td[2]/input').send_keys(keywords)
+        # phone
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/'
+                                          'tbody/tr[1]/td/table[1]/tbody/tr/td/table/'
+                                          'tbody/tr[19]/td[2]/input').send_keys(phone)
+
+        # price
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/'
+                                          'table/tbody/tr[1]/td/table[1]/tbody/tr/td/table/'
+                                          'tbody/tr[22]/td[2]/input').send_keys(price)
+
+        # address
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/'
+                                          'table/tbody/tr[1]/td/table[1]/tbody/tr/td/table/tbody/'
+                                          'tr[25]/td[2]/input').send_keys(address)
+
+        # city
+        select_city = Select(self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/'
+                                                               'tr/td[1]/table/tbody/tr[1]/td/table[1]/tbody/tr/'
+                                                               'td/table/tbody/tr[16]/td[4]/select'))
+        try:
+            select_city.select_by_visible_text(city)
+
+        except NoSuchElementException:
+            select_city.select_by_visible_text("  " + city)
+
+        # period
+        Select(self.driver.find_element_by_xpath('//*[@id="PLANPERIOD"]')).select_by_visible_text('یک ماه')
+
+        # type of ads
+        Select(self.driver.find_element_by_xpath('//*[@id="PLANTYPE"]')).select_by_visible_text('معمولی')
+
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="userfile1"]').send_keys(picture)
+        sleep(3)
+
+        # submit button
+        try:
+            self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/'
+                                              'td[1]/table/tbody/tr[1]/td/table[1]/tbody/tr/td/'
+                                              'table/tbody/tr[33]/th/input').click()
+
+            self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/'
+                                              'td[1]/table/tbody/tr[1]/td/table[1]/tbody/tr/td/'
+                                              'table/tbody/tr[33]/th/input').click()
+        except NoSuchElementException:
+            pass
+
+
 url = ''
 username = ''
 password = ''
+
+ad = PostAd15(url, username, password)
+
+
+# TODO: make this more efficient
+'''         RUN ALL CLASSES
+for index, url in enumerate(links):
+    ad = str_to_class(f"PostAd{index + 1}")
+    if index + 1 == 12 or index + 1 == 13:  username = 'saaz'
+    else:  username = ''    
+
+    try:
+        ad(url, username, password)
+    except NoSuchElementException:
+        logging.error(f"{url} - Failed")
+'''
