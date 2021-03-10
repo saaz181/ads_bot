@@ -1445,11 +1445,91 @@ class PostAd15(IPostAds):
             pass
 
 
+class PostAd16(IPostAds):
+    """ https://www.takro.net/ """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="username"]').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="password"]').send_keys(password)
+
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/div/section[2]/div[1]/div[2]/form/input[2]').click()
+        sleep(2)
+
+        self.post()
+
+    def post(self):
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/div/section[2]/div[1]/div[2]/ul/li[1]/a').click()
+
+        """ INFO """
+        group = 'آموزش'
+        sub_group = 'كامپيوتر'
+        title = 'سیبسبیبسیسیبب'
+        description = 'سیبسیبسیبسیببیب'
+        keywords = 'بسیبیسیسبسیبب'
+        phone = '09121233212'
+        price = '20120'
+        address = 'بسیبسبیبیبسیبسبیب'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+
+        # group
+        select_group = Select(self.driver.find_element_by_id('g'))
+        select_group.select_by_visible_text(f'{group}   »\u200c   {sub_group}')
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="name"]').send_keys(title)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="text"]').send_keys(description)
+
+        # keywords
+        self.driver.find_element_by_xpath('//*[@id="_keywords"]').send_keys(keywords)
+
+        # phone
+        self.driver.find_element_by_xpath('//*[@id="phone"]').send_keys(phone)
+
+        # price <تومان>
+        self.driver.find_element_by_xpath('//*[@id="price"]').send_keys(price)
+
+        # ads type
+        Select(self.driver.find_element_by_xpath('//*[@id="type"]')).select_by_visible_text('رایگان')
+
+        # Address
+        self.driver.find_element_by_xpath('//*[@id="address"]').send_keys(address)
+
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="photo1"]').send_keys(picture)
+
+        # submit button
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/div/section[1]/'
+                                          'div/div[2]/form/div/div[15]/button').click()
+
+
+class PostAd17(IPostAds):
+    """  """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        sleep(2)
+        self.post()
+
+    def post(self):
+        pass
+
+
+
 url = ''
 username = ''
 password = ''
 
-ad = PostAd15(url, username, password)
+
+ad = PostAd16(url, username, password)
 
 
 # TODO: make this more efficient
@@ -1464,3 +1544,9 @@ for index, url in enumerate(links):
     except NoSuchElementException:
         logging.error(f"{url} - Failed")
 '''
+
+
+
+
+
+
