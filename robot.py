@@ -1511,25 +1511,106 @@ class PostAd16(IPostAds):
 
 
 class PostAd17(IPostAds):
-    """  """
+    """ https://my.niazerooz.com/membership """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
+    def check_for_integer(self, alpha):
+        try:
+            int(alpha)
+            return True
+        except ValueError:
+            return False
+
     def login(self):
+        from PIL import Image
+        import pytesseract
+
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="EmailOrMobile"]').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="Password"]').send_keys(password)
+
+        # captcha
+        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+
+        with open('index.jpg', 'wb') as file:
+            file.write(self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div/div/'
+                                                         'div/form/div/div[1]/div[2]/div/img').screenshot_as_png)
+
+        captcha = pytesseract.image_to_string(Image.open('index.jpg'))
+        captcha_value = "".join(filter(self.check_for_integer, captcha))
+        sleep(3)
+
+        container = self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div/div/div/form/div/div[1]/div[2]')
+        container.find_element_by_tag_name('input').send_keys(captcha_value)
+
+        # __CaptchaVerificationToken_d1d3236a
         sleep(2)
         self.post()
 
     def post(self):
-        pass
+        try:
+            self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[2]/div/div[1]/div/div/div[1]/a').click()
+        except NoSuchElementException:
+            logging.error("captcha couldn't solve - https://my.niazerooz.com/membership ")
+            self.login()
+
+        """ INFO """
+        group = 'کامپیوتر'
+        sub_groups = 'خدمات کامپیوتر > برنامه نویسی'
+        province = 'خراسان رضوی'
+        city = 'مشهد'
+        title = ''
+        description = ''
+        keywords = ''
+        address = ''
+        phone = ''
+        email = ''
+        picture = ''
+
+        # group
+        self.driver.find_element_by_xpath('//*[@id="categorySelector"]').click()
+        self.driver.find_element_by_xpath('//*[@id="groupSelectBox"]').send_keys(group + ' > ' + sub_groups)
+
+        # province
+        self.driver.find_element_by_xpath('//*[@id="regionSelector"]').click()
+        self.driver.find_element_by_xpath('//*[@id="regionSelectBox"]').send_keys(province + ' > ' + city)
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="Subject"]').send_keys(title)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="Description"]').send_keys(description)
+
+        # keywords
+        self.driver.find_element_by_xpath('//*[@id="Link"]').send_keys(keywords)
+
+        # Address
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/div[15]/div[2]/input').send_keys(address)
+
+        # phone
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/div[16]/div[2]/div/input').send_keys(phone)
+
+        # email
+        self.driver.find_element_by_xpath('//*[@id="Email"]').send_keys(email)
+
+        # picture
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/div[20]/div[2]/img').send_keys(picture)
+
+        # submit
+        self.driver.find_element_by_xpath('//*[@id="btnSaveAdv"]').click()
 
 
 
-url = ''
-username = ''
-password = ''
+
+url = 'https://my.niazerooz.com/membership'
+username = '09156455409'
+password = '0926218867'
 
 
-ad = PostAd16(url, username, password)
+ad = PostAd17(url, username, password)
 
 
 # TODO: make this more efficient
@@ -1544,9 +1625,5 @@ for index, url in enumerate(links):
     except NoSuchElementException:
         logging.error(f"{url} - Failed")
 '''
-
-
-
-
 
 
