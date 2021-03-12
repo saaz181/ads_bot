@@ -25,11 +25,12 @@ links = [
     'https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/', 'https://parstabligh.org/user_login/',
     'https://www.panikad.com/auth/login/', 'https://www.novintabligh.com/login.html', 'https://www.takro.net/',
     'https://my.niazerooz.com/membership', 'https://eforosh.com/', 'http://newagahi.ir/login_register.php',
-    'https://71ap.ir/login/',
+    'https://71ap.ir/login/', 'https://otab.ir/auth',
 
 ]
 
 
+# design class of our classes
 class IPostAds(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self, url, username, password):
@@ -1982,12 +1983,114 @@ class PostAd20(IPostAds):
                                           'div/div/div/div[2]/form/p[2]/input[2]').click()
 
 
+class PostAd21(IPostAds):
+    """ https://otab.ir/auth """
+    def __init__(self, url, username, password):
+        super().__init__(url ,username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="frm_username"]').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="frm_password"]').send_keys(password)
+
+        # delay time for captcha enter & switch into captcha input field
+        self.driver.find_element_by_xpath('//*[@id="login_captcha_input"]').click()
+        sleep(10)
+
+        # login button
+        self.driver.find_element_by_xpath('/html/body/section/div/div/section[1]/'
+                                          'section/div[2]/form/div[5]/div[3]/button').click()
+
+        self.post()
+
+    def post(self):
+        try:
+            self.driver.find_element_by_xpath('/html/body/section/div/div[2]/div/a').click()
+            sleep(2)
+        except NoSuchElementException:
+            logging.error('Captcha didn\'t entered or is incorrect - https://otab.ir/auth')
+            self.login()
+
+        """ INFO """
+        title = 'dsfsdfsdfsf'
+        group = 'کامپیوتر و اینترنت'
+        sub_group = 'برنامه نویسی'
+        description = 'سیسحبنیسبخسهیبتسخهیبتسیهخبتسیخهبتیخب'
+        price = '2000'
+        province = 'خراسان رضوی'
+        city = 'شاندیز'
+        phone = '09121233212'
+        address = 'dasdasdasasadsadsadasdsadsadsadsadasdsadssd'
+        keyword = '' + '\n' + '' + '\n' + '' + '\n'  # TODO: fix the keywords
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="frm_title"]').send_keys(title)
+
+        # group
+        select_group = Select(self.driver.find_element_by_id('select-category'))
+        select_group.select_by_visible_text(group)
+        sleep(3)
+
+        # sub group
+        select_sub_group = Select(self.driver.find_element_by_id('select-subcategory'))
+        select_sub_group.select_by_visible_text(sub_group)
+
+        # picture
+        self.driver.find_element_by_xpath('/html/body/div[7]/input').send_keys(picture)
+
+        # type of ad
+        Select(self.driver.find_element_by_id('frm_plan_type')).select_by_visible_text('آگهی رایگان')
+        sleep(2)
+
+        # price
+        self.driver.find_element_by_xpath('//*[@id="frm_price"]').send_keys(price)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="frm_description"]').send_keys(description)
+        sleep(2)
+
+        # province
+        select_province = Select(self.driver.find_element_by_id('state_id'))
+        select_province.select_by_visible_text(province)
+        sleep(2)
+
+        # city
+        select_city = Select(self.driver.find_element_by_id('city_id'))
+        select_city.select_by_visible_text(city)
+
+        # phone
+        self.driver.find_element_by_xpath('//*[@id="frm_tel"]').send_keys(phone)
+
+        # address
+        self.driver.find_element_by_xpath('//*[@id="frm_address"]').send_keys(address)
+
+        # keyword
+        select_keywords = Select(self.driver.find_element_by_id('frm_keywords'))
+
+        # submit button
+        self.driver.find_element_by_xpath('//*[@id="submit_item"]').click()
+
+
+class PostAd22(IPostAds):
+    """ http://sanatesakhteman.ir """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+
+        self.post()
+
+    def post(self):
+        pass
 
 url = ''
 username = ''
 password = ''
 
-
+ad = PostAd21(url, username, password)
 
 # TODO: make this more efficient
 '''         RUN ALL CLASSES
