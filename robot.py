@@ -1,6 +1,7 @@
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import logging
 from abc import abstractmethod, ABCMeta
@@ -22,7 +23,10 @@ links = [
     'http://parsu.ir', 'https://agahi90.ir/', 'https://www.niaz118.com/', 'http://www.decornama.com',
     'http://www.tehran-tejarat.com', 'https://vista.ir/ads/', 'https://agahiname.com/',
     'https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/', 'https://parstabligh.org/user_login/',
-    'https://www.panikad.com/auth/login/', 'https://www.novintabligh.com/login.html',
+    'https://www.panikad.com/auth/login/', 'https://www.novintabligh.com/login.html', 'https://www.takro.net/',
+    'https://my.niazerooz.com/membership', 'https://eforosh.com/', 'http://newagahi.ir/login_register.php',
+    'https://71ap.ir/login/',
+
 ]
 
 
@@ -1511,7 +1515,9 @@ class PostAd16(IPostAds):
 
 
 class PostAd17(IPostAds):
-    """ https://my.niazerooz.com/membership """
+    """ https://my.niazerooz.com/membership
+        username: 09156455409
+    """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
@@ -1523,8 +1529,8 @@ class PostAd17(IPostAds):
             return False
 
     def login(self):
-        from PIL import Image
         import pytesseract
+        import cv2
 
         # Enter username
         self.driver.find_element_by_xpath('//*[@id="EmailOrMobile"]').send_keys(username)
@@ -1538,15 +1544,19 @@ class PostAd17(IPostAds):
         with open('index.jpg', 'wb') as file:
             file.write(self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div/div/'
                                                          'div/form/div/div[1]/div[2]/div/img').screenshot_as_png)
+        img = cv2.imread('index.jpg')
+        dst = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
 
-        captcha = pytesseract.image_to_string(Image.open('index.jpg'))
+        captcha = pytesseract.image_to_string(dst)
         captcha_value = "".join(filter(self.check_for_integer, captcha))
-        sleep(3)
+        sleep(6)
 
         container = self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div/div/div/form/div/div[1]/div[2]')
         container.find_element_by_tag_name('input').send_keys(captcha_value)
 
-        # __CaptchaVerificationToken_d1d3236a
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div/div/div/form/div/div[1]/div[3]/button').click()
+
         sleep(2)
         self.post()
 
@@ -1555,28 +1565,65 @@ class PostAd17(IPostAds):
             self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[2]/div/div[1]/div/div/div[1]/a').click()
         except NoSuchElementException:
             logging.error("captcha couldn't solve - https://my.niazerooz.com/membership ")
+            self.driver.refresh()
             self.login()
 
         """ INFO """
-        group = 'کامپیوتر'
-        sub_groups = 'خدمات کامپیوتر > برنامه نویسی'
-        province = 'خراسان رضوی'
-        city = 'مشهد'
+        group = ''
+        sub_groups = ''
+        province = ''
+        city = ''
         title = ''
         description = ''
         keywords = ''
         address = ''
         phone = ''
         email = ''
-        picture = ''
+        picture = r''
 
         # group
         self.driver.find_element_by_xpath('//*[@id="categorySelector"]').click()
         self.driver.find_element_by_xpath('//*[@id="groupSelectBox"]').send_keys(group + ' > ' + sub_groups)
+        sleep(2)
+        self.driver.find_element_by_xpath('//*[@id="groupSelectBox"]').send_keys(Keys.ARROW_DOWN)
+        self.driver.find_element_by_xpath('//*[@id="groupSelectBox"]').send_keys(Keys.RETURN)
 
         # province
         self.driver.find_element_by_xpath('//*[@id="regionSelector"]').click()
-        self.driver.find_element_by_xpath('//*[@id="regionSelectBox"]').send_keys(province + ' > ' + city)
+        sleep(2)
+        element = 1
+        loop = True
+        while loop:
+            try:
+                province_txt = str(self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/'
+                                                                     'div[5]/div[2]/div/div[2]/div/div/a['
+                                                                     + str(element) + ']').text)
+                if province_txt == province:
+                    self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/'
+                                                                     'div[5]/div[2]/div/div[2]/div/div/a['
+                                                                     + str(element) + ']').click()
+                    loop = False
+
+                element += 1
+            except NoSuchElementException:
+                loop = False
+
+        element = 3
+        loop = True
+        while loop:
+            try:
+                city_txt = str(self.driver.find_element_by_xpath("/html/body/div[2]/div[2]/form/div/"
+                                                                 "div[5]/div[2]/div/div[2]/div/div/a["
+                                                                 + str(element) + "]").text)
+
+                if city_txt == city:
+                    self.driver.find_element_by_xpath("html/body/div[2]/div[2]/form/div/"
+                                                      "div[5]/div[2]/div/div[2]/div/div/a["
+                                                      + str(element) + "]").click()
+                    loop = False
+                element += 1
+            except NoSuchElementException:
+                loop = False
 
         # title
         self.driver.find_element_by_xpath('//*[@id="Subject"]').send_keys(title)
@@ -1585,7 +1632,7 @@ class PostAd17(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="Description"]').send_keys(description)
 
         # keywords
-        self.driver.find_element_by_xpath('//*[@id="Link"]').send_keys(keywords)
+        self.driver.find_element_by_xpath('//*[@id="moreInfotxt"]/div[1]/input').send_keys(keywords)
 
         # Address
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/div[15]/div[2]/input').send_keys(address)
@@ -1596,21 +1643,350 @@ class PostAd17(IPostAds):
         # email
         self.driver.find_element_by_xpath('//*[@id="Email"]').send_keys(email)
 
-        # picture
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/div[20]/div[2]/img').send_keys(picture)
+        # picture TODO: make picture input
 
         # submit
         self.driver.find_element_by_xpath('//*[@id="btnSaveAdv"]').click()
 
 
+class PostAd18(IPostAds):
+    """ https://eforosh.com/ """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div/a/div[1]/ul/'
+                                          'form[2]/table/tbody/tr[1]/td[2]/p/input').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div/a/div[1]/ul/'
+                                          'form[2]/table/tbody/tr[2]/td[2]/p/input').send_keys(password)
+
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div/a/div[1]/'
+                                          'ul/form[2]/table/tbody/tr[3]/td/p/input').click()
+        sleep(2)
+        self.post()
+
+    def post(self):
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/div/div[2]/ul/li[1]/a[2]').click()
+
+        """ INFO """
+        title = 'asdassadadsdasds'
+        group = 'كامپيوتر'
+        sub_group = 'خرید کامپیوتر'
+        description = 'sdsfsdfsdfsdfsdfsdfsdfsfdfsfd'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+        price = '20000'
+        address = 'adadasdasdadadasdasdsa'
+        phone = '09151233212'
+        keywords = 'dasdadsadasdadasdasdsadsad'
+        province = 'تهران'
+
+        # title
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/div[2]/'
+                                          'ul/table/tbody/tr[1]/td[2]/p/input').send_keys(title)
+
+        # group
+        select_group_and_sub_group = Select(self.driver.find_element_by_id('subcatid'))
+        select_group_and_sub_group.select_by_visible_text(group + ' -> ' + sub_group)
+
+        # description
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/div[2]/'
+                                          'ul/table/tbody/tr[3]/td[2]/p/textarea').send_keys(description)
+
+        # picture
+        iframe = self.driver.find_element_by_id('uploadframe')
+        self.driver.switch_to.frame(iframe)
+        self.driver.find_element_by_xpath('/html/body/div/span/form/input[3]').send_keys(picture)
+        self.driver.switch_to.default_content()
+
+        # price
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/'
+                                          'div[2]/ul/table/tbody/tr[8]/td[2]/p/input').send_keys(price)
+
+        # Address
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/'
+                                          'div[2]/ul/table/tbody/tr[9]/td[2]/p/input').send_keys(address)
+
+        # phone
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/div[2]/'
+                                          'ul/table/tbody/tr[7]/td[4]/p/input').send_keys(phone)
+
+        # keywords
+        self.driver.find_element_by_xpath('//*[@id="keywords"]').send_keys(keywords)
+
+        # province
+        try:
+            select_province = Select(self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/div[2]/'
+                                                                       'ul/table/tbody/tr[8]/td[4]/p/select'))
+            select_province.select_by_visible_text(province)
+        except NoSuchElementException:
+            pass
+
+        # submit button
+        self.driver.find_element_by_xpath('//*[@id="b1"]').click()
 
 
-url = 'https://my.niazerooz.com/membership'
-username = '09156455409'
-password = '0926218867'
+class PostAd19(IPostAds):
+    """ http://newagahi.ir/login_register.php
+        username: saaz
+    """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        sleep(3)
+        # close pop up
+        self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div[1]/button').click()
+
+        # Enter username
+        self.driver.find_element_by_xpath('/html/body/section[2]/div/div/section[1]/'
+                                          'section/div[2]/form/div[1]/input').send_keys(username)
+        sleep(1)
+
+        # Enter password
+        self.driver.find_element_by_xpath('/html/body/section[2]/div/div/section[1]/'
+                                          'section/div[2]/form/div[2]/input').send_keys(password)
+
+        # login button
+        self.driver.find_element_by_xpath('/html/body/section[2]/div/div/'
+                                          'section[1]/section/div[2]/form/div[4]/button').click()
+        sleep(2)
+        self.post()
+
+    def post(self):
+        self.driver.get('http://newagahi.ir/add_estate.php')
+        sleep(3)
+
+        # close pop up
+        self.driver.find_element_by_xpath('/html/body/div[7]/div/div/div[1]/button').click()
+
+        """ INFO """
+        title = 'dlsd,skmf'
+        phone = '09121233212'
+        group = 'کامپیوتر و اینترنت'
+        sub_group = 'برنامه نویسی'
+        province = 'خراسان رضوی'
+        city = 'مشهد'
+        description = 'sdsfdsfsdjfhksjdkfshksduhfkshkjdkjsfjkdshfjkshdfsdkjfhskdjhfksjdnfkjfpfp[pqefksdojvsdncjbwfjbdkjsnjdshnfljsdisdjlkfjlsdjfsfsdfsdfsdfsddsffsf'
+        keywords = 'adasdd\ndsfsdf\nsdfsdff\n'
+        price = '20000'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+
+        # title
+        sleep(3)
+        self.driver.find_element_by_css_selector('#frm_title').send_keys(title)
+
+        # phone
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[5]/input').send_keys(phone)
+
+        # group & sub-group
+        sleep(2)
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                       'div/div[4]/form/div/div[6]/div[1]/button').click()
+        element = 2
+        loop = True
+        while loop:
+            try:
+                group_txt = str(self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/div/'
+                                                                  'div[4]/form/div/div[6]/div[1]/ul/li['
+                                                                  + str(element) + ' ]/a').text)
+                group_txt = group_txt.split(' -- ')
+                if group_txt[0] == group and group_txt[1] == sub_group:
+                    self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/div/'
+                                                      'div[4]/form/div/div[6]/div[1]/ul/li['
+                                                      + str(element) + ' ]/a').click()
+                    loop = False
+                element += 1
+            
+            except NoSuchElementException:
+                loop = False
+
+        # select type of ads
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[7]/div/button').click()
+        sleep(1)
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/div/'
+                                          'div[4]/form/div/div[7]/div/ul/li[2]/a').click()
+
+        # province
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[9]/div/button').click()
+
+        loop = True
+        element = 1
+        while loop:
+            try:
+                province_txt = str(self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                                                     'div/div[4]/form/div/div[9]/div/ul/li['
+                                                                     + str(element) + ']/a').text)
+                if province_txt == province:
+                    self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                                      'div/div[4]/form/div/div[9]/div/ul/li['
+                                                      + str(element) + ']/a').click()
+                    loop = False
+                element += 1
+            
+            except NoSuchElementException:
+                loop = False
+        sleep(2)
+
+        # city
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[10]/div/button').click()
+
+        loop = True
+        element = 1
+        while loop:
+            try:
+                city_txt = str(self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                                              'div/div[4]/form/div/div[10]/div/ul/li['
+                                                              + str(element) + ']/a').text)
+                if city_txt == city:
+                    self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                                      'div/div[4]/form/div/div[10]/div/ul/li['
+                                                      + str(element) + ']/a').click()
+                    loop = False
+                element += 1
+            except NoSuchElementException:
+                loop = False
+
+        # first submit button
+        self.driver.find_element_by_xpath('//*[@id="step1_submit"]').click()
+        sleep(3)
+
+        # close pop up
+        self.driver.find_element_by_xpath('/html/body/div[7]/div/div/div[1]/button').click()
+
+        # description
+        sleep(2)
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/div/'
+                                          'div[4]/form/div/div[5]/div/div[6]').send_keys(description)
+
+        # keywords
+        sleep(1)
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[7]/div/input').send_keys(keywords)
+
+        # price
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/'
+                                          'div[2]/div/div[4]/form/div/div[9]/input').send_keys(price)
+
+        # second submit button
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[13]/button').click()
+
+        # close pop up
+        try:
+            sleep(5)
+            self.driver.find_element_by_xpath('/html/body/div[7]/div/div/div[1]/button').click()
+        except NoSuchElementException:
+            self.driver.find_element_by_xpath('/html/body/div[7]/div/div/div[1]/button').click()
+
+        # picture
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[9]/div/span/input').send_keys(picture)
+
+        # third submit button
+        sleep(2)
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/div/form/div/div[8]/button').click()
+        sleep(2)
+
+        # final submit button
+        self.driver.find_element_by_xpath('/html/body/div[5]/section/div/div/div[2]/'
+                                          'div/div[4]/form/div/div[5]/button').click()
 
 
-ad = PostAd17(url, username, password)
+class PostAd20(IPostAds):
+    """ https://71ap.ir/login/
+    """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="login_username"]').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="login_password"]').send_keys(password)
+        sleep(2)
+
+        # login button
+        self.driver.find_element_by_xpath('//*[@id="login"]').click()
+
+        self.post()
+
+    def post(self):
+        self.driver.find_element_by_xpath('/html/body/div[1]/header/nav/div[3]/ul/li/a').click()
+
+        """ INFO """
+        group = 'رایانه'
+        sub_group = 'برنامه نویسی'
+        title = 'dsfsdfsdfdfds'
+        price = '20301'
+        phone = '09121233212'
+        province = 'خراسان رضوی'
+        description = 'خهیتریهختبهخسیتبخسیهبتیسخبهتسخسهبتسیحیسزجحزنسیمئزمنیدسرینسدبخهثصبئنیسمئزنمیسدبهیسبهسیئزنیسئدبندیسندبئسیخمنب'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+
+        # group
+        select_group = Select(self.driver.find_element_by_id('ad_cat_id'))
+        select_group.select_by_visible_text(group)
+        sleep(2)
+
+        # sub group
+        select_sub_group = Select(self.driver.find_element_by_css_selector('#catlvl1 > select:nth-child(1)'))
+        select_sub_group.select_by_visible_text(sub_group)
+        sleep(2)
+
+        # first submit button
+        self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/main/div/div/'
+                                          'div/div[2]/form/table/tbody/tr[3]/td/div/input').click()
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="post_title"]').send_keys(title)
+
+        # price
+        self.driver.find_element_by_xpath('//*[@id="cp_price"]').send_keys(price)
+
+        # phone
+        self.driver.find_element_by_xpath('//*[@id="cp_mobile"]').send_keys(phone)
+
+        # province
+        select_province = Select(self.driver.find_element_by_xpath('//*[@id="cp_state"]'))
+        select_province.select_by_visible_text(province)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="post_content"]').send_keys(description)
+
+        # picture
+        self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/main/div/div/div/'
+                                          'div[2]/form/div[2]/div[2]/div/div[1]/div/p[3]/a').click()
+
+        self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/main/div/div/div/div[2]/form/div[2]/'
+                                          'div[2]/div/div[1]/div/div/div[3]/ul/li[1]/div/input').send_keys(picture)
+
+        # ads package
+        Select(self.driver.find_element_by_id('ad_pack_id')).select_by_visible_text('بسته 10 روزه رایگان')
+
+        # second submit button
+        self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/main/'
+                                          'div/div/div/div[2]/form/input[3]').click()
+        sleep(4)
+        # final submit button
+        self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/main/'
+                                          'div/div/div/div[2]/form/p[2]/input[2]').click()
+
+
+
+url = ''
+username = ''
+password = ''
+
 
 
 # TODO: make this more efficient
@@ -1625,5 +2001,4 @@ for index, url in enumerate(links):
     except NoSuchElementException:
         logging.error(f"{url} - Failed")
 '''
-
 
