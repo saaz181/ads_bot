@@ -2,7 +2,7 @@ from selenium import webdriver
 from time import sleep
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 import logging
 from abc import abstractmethod, ABCMeta
 import sys
@@ -26,7 +26,7 @@ links = [
     'https://www.panikad.com/auth/login/', 'https://www.novintabligh.com/login.html', 'https://www.takro.net/',
     'https://my.niazerooz.com/membership', 'https://eforosh.com/', 'http://newagahi.ir/login_register.php',
     'https://71ap.ir/login/', 'https://otab.ir/auth',
-    'https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html',
+    'https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html', 'http://shetabe.ir/login',
 
 ]
 
@@ -43,6 +43,21 @@ class IPostAds(metaclass=ABCMeta):
         self.login()
 
         """ Information for login and load page"""
+
+    @staticmethod
+    def match(string, other):
+        count = 0
+        match_length = len(string)
+        partion = len(string.split(' '))
+        for i, j in zip(string, other):
+            if i == j:
+                count += 1
+        if count > ((match_length / 3) * 2) and partion == 1:
+            return True
+        elif partion > 1:
+            if count > match_length - 3:
+                return True
+        return False
 
     @abstractmethod
     def login(self):
@@ -2203,11 +2218,306 @@ class PostAd22(IPostAds):
             sleep(2)
 
 
+class PostAd23(IPostAds):
+    """ http://shetabe.ir/login """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        import cv2
+        import pytesseract
+
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="email"]').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="password"]').send_keys(password)
+
+        # captcha
+        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+        with open('index.jpg', 'wb') as file:
+            file.write(self.driver.find_element_by_xpath('/html/body/div[1]/div[5]/div/div[2]/form/'
+                                                         'table/tbody/tr[4]/td[2]/img').screenshot_as_png)
+        sleep(1)
+        img = cv2.imread('index.jpg')
+        dst = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
+        captcha = pytesseract.image_to_string(dst)
+
+        sleep(1)
+        self.driver.find_element_by_xpath('//*[@id="capcha"]').send_keys(captcha.replace('.', ''))
+
+        # login button
+        try:
+            self.driver.find_element_by_xpath('//*[@id="sub"]').click()
+            sleep(3)
+        except ElementNotInteractableException:
+            pass
+        self.post()
+
+    def post(self):
+        try:
+            sleep(3)
+            self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/div[2]/div/div[1]/a').click()
+        except NoSuchElementException:
+            logging.error("Captcha didn't entered correctly - http://shetabe.ir/login ")
+            self.login()
+
+        """ INFO """
+        group = 'کامپیوتر و اینترنت'
+        sub_group = 'کامپیوتر'
+        province = 'خراسان رضوی'
+        city = 'مشهد'
+        phone = '09121233212'
+        title = 'شسیشسیشسشیشی'
+        keywords = 'یشسیشیشسی،بیسبسیب،بسیبسبی'
+        price = '20000'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+        address = 'شسیشسیشیشییشیشیسیشسیس'
+        description = 'یسشیسشیشیشسیشسیشیشسیشیسشییسشیس'
+
+        # type of ads
+        try:
+            Select(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/table/tbody/tr[3]/'
+                                                     'td[2]/select')).select_by_visible_text('رایگان تصویری')
+        except NoSuchElementException:
+            pass
+
+        try:
+            # group
+            select_group = Select(self.driver.find_element_by_id('cat'))
+            select_group.select_by_visible_text(group)
+            sleep(2)
+
+        except NoSuchElementException:
+            element = 1
+            loop = True
+            while loop:
+                try:
+                    group_txt = str(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/'
+                                                                      'table/tbody/tr[6]/td[2]/select/option['
+                                                                      + str(element) + ']').text)
+
+                    if self.match(group, group_txt):
+                        self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/'
+                                                          'table/tbody/tr[6]/td[2]/select/option['
+                                                          + str(element) + ']').click()
+                        loop = False
+                    element += 1
+                except NoSuchElementException:
+                    loop = False
+
+        # sub group
+        select_sub_group = Select(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/table/'
+                                                                    'tbody/tr[6]/td[2]/span[1]/select'))
+        select_sub_group.select_by_visible_text(sub_group)
+
+        # province
+        try:
+            select_province = Select(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/'
+                                                                       'table/tbody/tr[7]/td[2]/select'))
+            select_province.select_by_visible_text(province)
+            sleep(2)
+        except NoSuchElementException:
+            loop = True
+            element = 1
+            while loop:
+                try:
+                    select_province = str(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/'
+                                                                            'table/tbody/tr[7]/td[2]/select/option['
+                                                                            + str(element) + ']').text)
+                    if self.match(province, select_province):
+                        self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/'
+                                                          'table/tbody/tr[7]/td[2]/select/option['
+                                                          + str(element) + ']').click()
+                        loop = False
+                        sleep(2)
+                    element += 1
+                except NoSuchElementException:
+                    loop = False
+                    sleep(2)
+
+        # city
+        try:
+            select_city = Select(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/'
+                                                                   'form/table/tbody/tr[7]/td[2]/span/select'))
+            select_city.select_by_visible_text(city)
+        except NoSuchElementException:
+            loop = True
+            element = 1
+            while loop:
+                try:
+                    select_city_txt = str(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/'
+                                                                         'form/table/tbody/tr[7]/td[2]/span/'
+                                                                         'select/option[' + str(element) + ']').text)
+                    if self.match(city, select_city_txt):
+                        self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/'
+                                                          'form/table/tbody/tr[7]/td[2]/span/'
+                                                          'select/option[' + str(element) + ']').click()
+                        loop = False
+                    element += 1
+                except NoSuchElementException:
+                    loop = False
+
+        # phone
+        self.driver.find_element_by_xpath('//*[@id="tell"]').send_keys(phone)
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="title"]').send_keys(title)
+
+        # keywords
+        self.driver.find_element_by_xpath('//*[@id="keywords"]').send_keys(keywords.replace(' ', '،'))
+
+        # source
+        Select(self.driver.find_element_by_xpath('/html/body/div[1]/div[6]/div/div/form/'
+                                                 'table/tbody/tr[12]/td[2]/select')).select_by_visible_text('عمومی')
+
+        # price
+        self.driver.find_element_by_xpath('//*[@id="price"]').send_keys(price)
+
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="pic"]').send_keys(picture)
+        sleep(1)
+
+        # address
+        self.driver.find_element_by_xpath('//*[@id="address"]').send_keys(address)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="describtion"]').send_keys(description)
+        sleep(1)
+
+        # submit button
+        self.driver.find_element_by_xpath('//*[@id="sub"]').click()
+
+
+class PostAd24(IPostAds):
+    """ http://iran-tejarat.com/LoginPage.aspx """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="UserNameTextbox"]').send_keys(username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="PassTextbox"]').send_keys(password)
+
+        # login button
+        self.driver.find_element_by_xpath('//*[@id="AddButton"]').click()
+        self.post()
+
+    def post(self):
+        self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[3]/a').click()
+
+        """ INFO """
+        group = 'کامپیوتر'
+        sub_group = 'برنامه نویسی'
+        title = 'یسیسبیسب'
+        description = 'بیسبسیبسبمدیسندبنسیدبنیتبدینتبینب'
+        province = 'خراسان رضوی'
+        city = 'مشهد'
+        address = 'یبخهیسخهبتسیدبستدبیسنتدبستیندبسینتدنستب'
+        phone = '09121233212'
+        picture = r'C:/Users/Sabalan/Pictures/nature.jpg'
+
+        # group
+        try:
+            select_group = Select(self.driver.find_element_by_xpath('//*[@id="MainCatDropdown"]'))
+            select_group.select_by_visible_text(group)
+
+        except NoSuchElementException:
+            loop = True
+            element = 1
+            while loop:
+                try:
+                    group_txt = str(self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div/div[1]/'
+                                                                      'div/div[2]/div[3]/div[1]/div[1]/select/option['
+                                                                      + str(element) + ']').text)
+
+                    if self.match(group, group_txt):
+                        self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div/div[1]/'
+                                                          'div/div[2]/div[3]/div[1]/div[1]/select/option['
+                                                          + str(element) + ']').click()
+                        loop = False
+                    element += 1
+                except NoSuchElementException:
+                    loop = False
+
+        # sub group
+        try:
+            select_sub_group = Select(self.driver.find_element_by_xpath('//*[@id="SubCategoryDropdown"]'))
+            select_sub_group.select_by_visible_text(sub_group)
+        except NoSuchElementException:
+            loop = True
+            element = 1
+            while loop:
+                try:
+                    sub_group_txt = str(self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div/div[1]/div/div'
+                                                                          '[2]/div[3]/div[2]/div[1]/select/option['
+                                                                          + str(element) + ']').text)
+                    if self.match(sub_group, sub_group_txt):
+                        self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div/div[1]/div/div'
+                                                          '[2]/div[3]/div[2]/div[1]/select/option['
+                                                          + str(element) + ']').click()
+                        loop = False
+                    element += 1
+                except NoSuchElementException:
+                    loop = False
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="TitleTextbox"]').send_keys(title)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="DetailTextbox"]').send_keys(description)
+
+        # province
+        try:
+            select_province = Select(self.driver.find_element_by_xpath('//*[@id="StateDropdown"]'))
+            select_province.select_by_visible_text(province)
+        except NoSuchElementException:
+            loop = True
+            element = 1
+            while loop:
+                try:
+                    province_txt = str(self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div/div[1]/div/'
+                                                                         'div[2]/div[6]/div[1]/div[1]/select/option['
+                                                                         + str(element) + ']').text)
+                    if self.match(province, province_txt):
+                        self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div/div[1]/div/'
+                                                          'div[2]/div[6]/div[1]/div[1]/select/option['
+                                                          + str(element) + ']').click()
+                        loop = False
+                    element += 1
+                except NoSuchElementException:
+                    loop = False
+
+        # city
+        self.driver.find_element_by_xpath('//*[@id="CityTextbox"]').send_keys(city)
+
+        # address
+        self.driver.find_element_by_xpath('//*[@id="txtAddress"]').send_keys(address)
+
+        # phone
+        self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div/div[1]/div/'
+                                          'div[2]/div[6]/div[5]/div[1]/div/input').send_keys(phone)
+
+        # submit button
+        self.driver.find_element_by_xpath('//*[@id="AddButton"]').click()
+        sleep(5)
+
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="UploadPicFile1"]').send_keys(picture)
+
+        # final submit button
+        for i in range(2):  # if picture didn't fit in
+            self.driver.find_element_by_xpath('//*[@id="btnSubmitPicture"]').click()
+            sleep(2)
+
+
 url = ''
 username = ''
 password = ''
 
-# ad = PostAd22(url, username, password)
+# ad = PostAd24(url, username, password)
 
 # TODO: make this more efficient
 '''         RUN ALL CLASSES
@@ -2221,4 +2531,5 @@ for index, url in enumerate(links):
     except NoSuchElementException:
         logging.error(f"{url} - Failed")
 '''
+
 
