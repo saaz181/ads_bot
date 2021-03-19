@@ -1,1 +1,22 @@
+default_username =
+default_password =
+custom_username =
+custom_password =
+
+title =
+description =
+short_description =
+
 group =
+sub_group =
+
+address =
+province =
+city =
+name =
+phone =
+keywords =
+website_link =
+picture =
+price =
+email =
