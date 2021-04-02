@@ -62,3 +62,4 @@ for post in posts:
         except Exception as e:
             print(e)
             logging.error(f"Failed at {post[1]}")
+
