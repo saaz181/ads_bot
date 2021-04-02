@@ -1,22 +1,73 @@
-default_username =
-default_password =
-custom_username =
-custom_password =
+default_username = saliaz.mg326@gmail.com
+default_password = 0926218867
 
-title =
-description =
-short_description =
+##### DIFFERENT USERNAME & PASSWORDS #####
 
-group =
-sub_group =
+WEBSITE: https://71ap.ir/login/
+username = saliaz.mg326@gmail.com
+password = mc3qWCS)Srw3
 
-address =
-province =
-city =
-name =
-phone =
-keywords =
-website_link =
-picture =
-price =
-email =
+WEBSITE: https://my.niazerooz.com/membership
+username =  09156455409
+password =  467253
+
+WEBSITE: https://sellfree.ir/
+username = saazz
+password = 0926218867
+
+WEBSITE: http://darsanat.ir/login_register.php
+username = saaz
+password = 0926218867
+
+WEBSITE: https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/
+username = saaz
+password = 0926218867
+
+WEBSITE: https://parstabligh.org/user_login/
+username = saaz
+password = 0926218867
+
+WEBSITE: http://newagahi.ir/login_register.php
+username = saaz
+password = 0926218867
+
+WEBSITE: https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
+username = saaz
+password = 0926218867
+
+############################################
+
+
+title = خیسنبخسنیبخسنخینبسنیبخنسلام
+description =  سلام جبیسبیخستبهخستببدهسیبهسیبهتسیبهختسیخهبتسخهیبتخسیهتبسیهخبتسیخهبتسبخهستبسیهخبتسهیبتسهخبتیسهختبسیهخبتسیهختب
+short_description =  sdsfsdfsdfssdfldsf
+address =  شخبنیسهبتخسیهبتسشهخبتسخبهسبخهتبئیب
+province =  خراسان زضوی
+city = مشهد
+name =  علی
+phone =  0915645409
+home-phone = 05138442149
+keywords =  سبیبیس   یبسیبسبیب  سبسیبسبی  سیبسیب
+website-title = asdasdd
+website_link =  https://example.com
+picture =  C:\Users\Sabalan\Pictures\nature.jpg
+price =  2555000
+email =  saliaz.mg326@gmail.com
+
+
+
+##### GROUP & SUB-GROUP #####
+
+main-group = کامپیوتر
+main-sub-group =  برنامه نویسی
+
+#### http://sabzads.com/new, https://googleagahi.com/auth ####
+other-group = لوازم الکترونیکی
+other-sub-group =  رایانه
+other-sub-sub-group =  متفرقه
+
+### https://www.netmoj.ir/
+netmoj-group =  لوازم الکترونیکی
+netmoj-sub-group =  لپ تاپ، کامپیوتر و لوازم
+netmoj-sub-sub-group =  آموزشی
+
