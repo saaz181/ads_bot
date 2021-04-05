@@ -1,59 +1,23 @@
-default_username = saliaz.mg326@gmail.com
-default_password = 0926218867
-
-##### DIFFERENT USERNAME & PASSWORDS #####
-
-WEBSITE: https://71ap.ir/login/
-username = saliaz.mg326@gmail.com
-password = mc3qWCS)Srw3
-
-WEBSITE: https://my.niazerooz.com/membership
-username =  09156455409
-password =  467253
-
-WEBSITE: https://sellfree.ir/
-username = saazz
-password = 0926218867
-
-WEBSITE: http://darsanat.ir/login_register.php
-username = saaz
-password = 0926218867
-
-WEBSITE: https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/
-username = saaz
-password = 0926218867
-
-WEBSITE: https://parstabligh.org/user_login/
-username = saaz
-password = 0926218867
-
-WEBSITE: http://newagahi.ir/login_register.php
-username = saaz
-password = 0926218867
-
-WEBSITE: https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
-username = saaz
-password = 0926218867
-
-############################################
 
 
 title = خیسنبخسنیبخسنخینبسنیبخنسلام
-description =  سلام جبیسبیخستبهخستببدهسیبهسیبهتسیبهختسیخهبتسخهیبتخسیهتبسیهخبتسیخهبتسبخهستبسیهخبتسهیبتسهخبتیسهختبسیهخبتسیهختب
-short_description =  sdsfsdfsdfssdfldsf
+description =  سلام جبیسبیخستبهخستببدهسیبهسیبهتسیبهختسیخهبتسخهیبتخسیهتبسیهخبتسیخهبتسبخهستبسیهخبتتسهخبتیسهختبسیهخبتسیهختب
+short_description =  نیهشستیهشتسهیتسشهیشسیتشسه
 address =  شخبنیسهبتخسیهبتسشهخبتسخبهسبخهتبئیب
 province =  خراسان زضوی
 city = مشهد
 name =  علی
-phone =  0915645409
+phone =  09156455409
 home-phone = 05138442149
+
+#### بین کلمات کلیدی 2 تا فاصله<space> بذارید ####
 keywords =  سبیبیس   یبسیبسبیب  سبسیبسبی  سیبسیب
+
 website-title = asdasdd
 website_link =  https://example.com
-picture =  C:\Users\Sabalan\Pictures\nature.jpg
+picture =  C:\Users\Sabalan\Pictures\index.jpg
 price =  2555000
 email =  saliaz.mg326@gmail.com
-
 
 
 ##### GROUP & SUB-GROUP #####
@@ -71,3 +35,37 @@ netmoj-group =  لوازم الکترونیکی
 netmoj-sub-group =  لپ تاپ، کامپیوتر و لوازم
 netmoj-sub-sub-group =  آموزشی
 
+### https://www.niaz118.com/
+niaz118-group = کامپیوتری
+niaz118-sub-group =  آموزشی
+
+### http://www.tehran-tejarat.com/
+tehran-tejarat-group = کامپیوتر
+tehran-tejarat-sub-group =  برنامه نویسی
+
+### https://vista.ir/ads
+vista-group = کامپیوتر
+vista-sub-group = طراحی سایت
+
+### https://agahiname.com/
+agahinama-group = لوازم الکترونیکی
+agahinama-sub-group =  کامپیوتر دسکتاپ
+
+### https://agahiroz.com/
+agahirooz-group = آرایشگری و زیبایی
+
+### https://parstabligh.org/
+parstabligh-group = طلا و جواهر
+
+
+### https://www.panikad.com/
+panikad-group = ارتباطات
+panikad-sub-group = پنل ارسال SMS
+
+### https://71ap.ir/
+ap_group =  رایانه
+ap_sub_group =  برنامه نویسی
+
+### https://www.agahichi.com/
+agahichi-group = کامپیوتر و اینترنت
+agahichi-sub-group = کامپیوتر

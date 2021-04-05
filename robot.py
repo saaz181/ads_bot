@@ -3,9 +3,13 @@ from time import sleep
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
+from selenium.common.exceptions import (NoSuchElementException,
+                                        ElementNotInteractableException,
+                                        UnexpectedAlertPresentException)
 import logging
 from abc import abstractmethod, ABCMeta
+from info import *
+from functools import cache
 
 # logging configuration
 logging.basicConfig(filename='robot.log', filemode='a',
@@ -14,7 +18,7 @@ logging.basicConfig(filename='robot.log', filemode='a',
 # WEBSITE URLS
 links = [
     'http://www.soodiran.com', 'https://www.shahr24.com/', 'http://digiagahi.com', 'https://persianagahi.com',
-    'http://parsu.ir', 'https://agahi90.ir/', 'https://www.niaz118.com/', 'http://www.decornama.com',
+    'http://parsu.ir', 'https://agahi90.ir/', 'https://www.niaz118.com/framework/user/login', 'http://www.decornama.com',
     'http://www.tehran-tejarat.com', 'https://vista.ir/ads/', 'https://agahiname.com/',
     'https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/', 'https://parstabligh.org/user_login/',
     'https://www.panikad.com/auth/login/', 'https://www.novintabligh.com/login.html', 'https://www.takro.net/',
@@ -28,8 +32,9 @@ links = [
 ]
 
 
-# design class of our classes
+# design class of our classes (Base Class)
 class IPostAds(metaclass=ABCMeta):
+    @cache
     @abstractmethod
     def __init__(self, url, username, password):
         path = 'chromedriver.exe'
@@ -41,7 +46,46 @@ class IPostAds(metaclass=ABCMeta):
 
         """ Information for login and load page"""
 
+    """ In order to find groups & sub-groups that have 'main-group ->/» main-sub-group' pattern
+        we re-define match and search to _match & _search
+    """
     @staticmethod
+    @cache
+    def _match(string, other):
+        count = 0
+        match_length = len(string)
+        for i in string:
+            for j in other:
+                if i == j and i != ' ':
+                    count += 1
+                    break
+
+        if count > ((match_length / 3) * 2):
+            return True
+        return False
+
+    @cache
+    def _search(self, group, sub_group, prefix, suffix, separate_by='', element=1):
+        loop = True
+        while loop:
+            try:
+                pattern = self.driver.find_element_by_xpath(prefix + str(element) + suffix)
+                pattern_txt = str(pattern.text).split(separate_by)
+
+                try:
+                    if self._match(group, pattern_txt[0].strip()) and self._match(sub_group, pattern_txt[1].strip()):
+                        pattern.click()
+                        return element
+                except IndexError:
+                    pass
+
+                element += 1
+            except NoSuchElementException:
+                loop = False
+
+    """ Main match Function to match the string with string in dropdown boxes """
+    @staticmethod
+    @cache
     def match(string, other):
         count = 0
         match_length = len(string)
@@ -52,17 +96,19 @@ class IPostAds(metaclass=ABCMeta):
         if count > ((match_length / 3) * 2) and part == 1:
             return True
         elif part > 1:
-            if count > match_length - 3:
+            if count > match_length - 4:
                 return True
         return False
 
-    """ search for the string in a dropdown boxes """
+    """ Main search function to find string in a dropdown boxes and clicks it """
+    @cache
     def search(self, string, prefix, suffix, element=1):
         loop = True
         while loop:
             try:
                 pattern = self.driver.find_element_by_xpath(prefix + str(element) + suffix)
-                pattern_txt = str(pattern.text)
+                pattern_txt = str(pattern.text).strip()
+
                 if self.match(string, pattern_txt):
                     pattern.click()
                     return element
@@ -71,16 +117,17 @@ class IPostAds(metaclass=ABCMeta):
             except NoSuchElementException:
                 loop = False
 
+    @cache
     @abstractmethod
     def login(self):
         """ Login method """
 
+    @cache
     @abstractmethod
     def post(self):
         """ Post our ads """
 
-
-
+    @cache
     def close(self):
         self.driver.quit()
 
@@ -222,18 +269,6 @@ class PostAd2(IPostAds):
                  'div[11]/table/tbody/tr[4]/td/div[1]/div/ul/li['
         self.search(city, prefix, ']/a')
 
-        '''element_number = 1
-        while True:
-            select_city = self.driver.find_element_by_css_selector('ul.dropdown-menu:nth-child(1) > '
-                                                                   'li:nth-child(' + str(element_number) + ')')
-            if select_city.text == city:
-                select_city.click()
-                break
-            if element_number > 70:
-                print("City Not Found!")
-                break
-            element_number += 1
-        '''
         # address
         self.driver.find_element_by_xpath('//*[@id="Body1PlaceHolder_txtAddress"]').send_keys(address)
 
@@ -525,43 +560,25 @@ class PostAd6(IPostAds):
 
         except NoSuchElementException:
             self.login()
-        sleep(1)
+        sleep(2)
 
         # select group & sub-group
         self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/div[2]/div/div/'
                                           'div[1]/div[2]/div[1]/div/div[1]').click()
-        sleep(1)
-        prefix = '/html/body/form/div[2]/section/section/div/div/div[2]/' \
-                 'div/div/div[1]/div[2]/div[1]/div/div[2]/div/div['
-        self.search(main_group, prefix, ']')
+        sleep(2)
+        prefix = '/html/body/form/div[2]/section/section/div/div/div[2]' \
+                 '/div/div/div[1]/div[2]/div[1]/div/div[2]/div/div['
+
+        self._search(main_group, main_sub_group, prefix, ']', separate_by='»')
 
         # select province & city
         self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/div[2]/div/'
                                           'div/div[1]/div[2]/div[2]/div/div[1]').click()
+
+        prefix = '/html/body/form/div[2]/section/section/div/div/div[2]/' \
+                 'div/div/div[1]/div[2]/div[2]/div/div[2]/div/div['
         sleep(2)
-        element = 1
-        loop = True
-        while loop:
-            try:
-                city_txt = str(self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/'
-                                                                 'div[2]/div/div/div[1]/div[2]/div[2]/div/div[2]/'
-                                                                 'div/div[' + str(element) + ']').text)
-
-                try:
-                    city_txt = city_txt.split("»")
-                    if city_txt[0].strip() == province and city_txt[1].strip() == city:
-                        self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/div/div/'
-                                                          'div[2]/div/div/div[1]/div[2]/div[2]/div/div[2]/'
-                                                          'div/div[' + str(element) + ']').click()
-                        loop = False
-                except IndexError:
-                    pass
-
-                element += 1
-
-            except NoSuchElementException:
-                logging.error("Not Found - https://agahi90.ir/ ")
-                loop = False
+        self._search(province, city, prefix, ']', separate_by='»')
 
         # title
         self.driver.find_element_by_xpath('//*[@id="mainContent_txtOnvan"]').send_keys(title)
@@ -593,31 +610,68 @@ class PostAd6(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="mainContent_Button1"]').click()
         sleep(2)
 
+        # Error message of picture
+        try:
+            error_msg = str(self.driver.find_element_by_xpath('/html/body/form/div[2]/section/section/'
+                                                              'div/div/div[2]/div/div/div[1]').text)
+            if error_msg:
+                logging.error(f"Picture for {links[5]} Failed!")
+
+        except NoSuchElementException:
+            pass
+
 
 class PostAd7(IPostAds):
-    """ https://www.niaz118.com/ """
+    """ https://www.niaz118.com/framework/user/login """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
     def login(self):
-        # navigate to login page
-        self.driver.find_element_by_xpath('/html/body/div[1]/header/div[2]/ul/li[3]/a').click()
 
         # Enter username
         self.driver.find_element_by_xpath('//*[@id="username"]').send_keys(self.username)
 
         # Enter password
         self.driver.find_element_by_xpath('//*[@id="passwd"]').send_keys(self.password)
+        sleep(1)
 
-        # login buttin
-        self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div[2]'
-                                          '/div/div[1]/div[1]/form/input[1]').click()
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div/div[2]/'
+                                          'div/div[1]/div[1]/form/input[1]').click()
         sleep(2)
         self.post()
 
+    @staticmethod
+    def __match(string, other):
+        count = 0
+        match_length = len(string)
+        for i in string:
+            for j in other:
+                if i == j and i != ' ':
+                    count += 1
+                    break
+
+        if count > ((match_length / 3) * 2):
+            return True
+        return False
+
+    def __search(self, string, prefix, suffix, element=1):
+        loop = True
+        while loop:
+            try:
+                pattern = self.driver.find_element_by_xpath(prefix + str(element) + suffix)
+                pattern_txt = str(pattern.text).strip()
+
+                if self.__match(string, pattern_txt):
+                    pattern.click()
+                    return element
+
+                element += 1
+            except NoSuchElementException:
+                loop = False
+
     def post(self):
-        self.driver.find_element_by_xpath('/html/body/div/div/div[1]/div/div/ul/li[2]/a').click()
-        sleep(1)
+        self.driver.get('https://www.niaz118.com/ads/addprop')
 
         # title
         self.driver.find_element_by_xpath('//*[@id="title"]').send_keys(title)
@@ -626,13 +680,17 @@ class PostAd7(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="reg2"]').click()
 
         # group
-        select_group = Select(self.driver.find_element_by_id('MainType'))
-        select_group.select_by_visible_text(main_group)
+        self.driver.find_element_by_xpath('//*[@id="MainType"]').click()
         sleep(1)
+        prefix = '/html/body/div[2]/div/div[2]/div/div[2]/div/form/div/div/div[1]/fieldset/div[2]/div[3]/select/option['
+        self.__search(niaz118_group, prefix, ']', element=2)
+        sleep(2)
 
         # sub group
-        select_sub_group = Select(self.driver.find_element_by_id('SubType'))
-        select_sub_group.select_by_visible_text(main_sub_group)
+        self.driver.find_element_by_id('SubType').click()
+        prefix = '/html/body/div[2]/div/div[2]/div/div[2]/div/form/div/' \
+                 'div/div[1]/fieldset/div[2]/div[4]/div/select/option['
+        self.__search(niaz118_sub_group, prefix, ']', element=2)
 
         # description
         self.driver.find_element_by_xpath('//*[@id="full_text"]').send_keys(description)
@@ -649,12 +707,17 @@ class PostAd7(IPostAds):
                                           'form/div/div/div[3]/fieldset/div[3]/input').send_keys(address)
 
         # province
-        select_province = Select(self.driver.find_element_by_name('state'))
-        select_province.select_by_visible_text(province)
+        self.driver.find_element_by_name('state').click()
+        prefix = '/html/body/div[2]/div/div[2]/div/div[2]/div/form/div/div/div[3]/fieldset/div[4]/select/option['
+        self.__search(province, prefix, ']', element=2)
 
-        # login button
-        self.driver.find_element_by_xpath('/html/body/div/div/div[2]/div/div[2]/'
-                                          'div[1]/form/div/table/tbody/tr/td[1]/input').click()
+        # scroll down
+        self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+        sleep(1)
+
+        # submit button
+        self.driver.find_element_by_xpath('/html/body/div[2]/div/div[2]/div/div[2]/div/'
+                                          'form/div/div/table/tbody/tr/td[1]/input').click()
 
 
 class PostAd8(IPostAds):
@@ -768,13 +831,16 @@ class PostAd9(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_TxtTitle"]').send_keys(title)
 
         # group
-        select_group = Select(self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_DropDownListCategory"]'))
-        select_group.select_by_visible_text(main_group)
+        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_DropDownListCategory"]').click()
+        prefix = '/html/body/form/div[3]/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/' \
+                 'div[2]/div/div/table/tbody/tr[2]/td[2]/select/option['
+        self.search(tehran_tejarat_group, prefix, ']')
 
         # sub group
-        select_sub_group = Select(self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_'
-                                                                    'DropDownListSubCategory"]'))
-        select_sub_group.select_by_visible_text(main_sub_group)
+        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_DropDownListSubCategory"]').click()
+        prefix = '/html/body/form/div[3]/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/' \
+                 'div[2]/div/div/table/tbody/tr[3]/td[2]/select/option['
+        self.search(tehran_tejarat_sub_group, prefix, ']')
 
         # description
         self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_TxtDescription"]').send_keys(description)
@@ -784,8 +850,10 @@ class PostAd9(IPostAds):
             keywords.replace('  ', '\n'))
 
         # province
-        select_province = Select(self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_DropDownListOstan"]'))
-        select_province.select_by_visible_text(province)
+        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_DropDownListOstan"]').click()
+        prefix = '/html/body/form/div[3]/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/' \
+                 'div[2]/div/div/table/tbody/tr[6]/td[2]/select/option['
+        self.search(province, prefix, ']')
 
         # city
         self.driver.find_element_by_xpath('//*[@id="ctl00_ContentAsli_TxtCity"]').send_keys(city)
@@ -841,13 +909,15 @@ class PostAd10(IPostAds):
         self.driver.find_element_by_xpath('/html/body/main/div[2]/div[1]/div[2]/div[2]/form/button').click()
 
         # group
-        select_group = Select(self.driver.find_element_by_id('cats'))
-        select_group.select_by_visible_text(main_group)
+        self.driver.find_element_by_id('cats').click()
+        prefix = '/html/body/main/div[2]/div[2]/div/div[2]/form/div[1]/div[1]/select/option['
+        self.search(vista_group, prefix, ']', element=2)
         sleep(1)
 
         # sub group
-        select_sub_group = Select(self.driver.find_element_by_id('subcats'))
-        select_sub_group.select_by_visible_text(main_sub_group)
+        self.driver.find_element_by_id('subcats').click()
+        prefix = '/html/body/main/div[2]/div[2]/div/div[2]/form/div[1]/div[2]/select/option['
+        self.search(vista_sub_group, prefix, ']', element=2)
 
         # title
         self.driver.find_element_by_xpath('//*[@id="title"]').send_keys(title)
@@ -859,8 +929,9 @@ class PostAd10(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="desc"]').send_keys(description)
 
         # city
-        select_city = Select(self.driver.find_element_by_name('city'))
-        select_city.select_by_visible_text(city)
+        self.driver.find_element_by_name('city').click()
+        prefix = '/html/body/main/div[2]/div[2]/div/div[2]/form/div[5]/select/option['
+        self.search(city, prefix, ']', element=2)
 
         # Address
         self.driver.find_element_by_xpath('//*[@id="address"]').send_keys(address)
@@ -905,7 +976,8 @@ class PostAd11(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="ContentPlaceHolder1_TextBox2"]').send_keys(self.password)
 
         """ Captcha should entered manually """
-        sleep(10)
+        self.driver.find_element_by_xpath('//*[@id="ContentPlaceHolder1_TextBoxCaptcha"]').click()
+        sleep(12)
 
         # login button
         self.driver.find_element_by_xpath('//*[@id="ContentPlaceHolder1_Button1"]').click()
@@ -923,17 +995,21 @@ class PostAd11(IPostAds):
             self.login()
 
         # group
-        select_group = Select(self.driver.find_element_by_id('ContentPlaceHolder1_DropDownList1'))
-        select_group.select_by_visible_text(main_group)
-        sleep(2)
+        self.driver.find_element_by_id('ContentPlaceHolder1_DropDownList1').click()
+        prefix = '/html/body/form/div[7]/div[2]/div/div/div[1]/select/option['
+        self.search(agahinama_group, prefix, ']', element=2)
+        sleep(3)
 
         # sub group
-        select_sub_group = Select(self.driver.find_element_by_id('ContentPlaceHolder1_DropDownList2'))
-        select_sub_group.select_by_visible_text(main_sub_group)
+        self.driver.find_element_by_id('ContentPlaceHolder1_DropDownList2').click()
+        prefix = '/html/body/form/div[7]/div[2]/div/div/div[2]/select/option['
+        self.search(agahinama_sub_group, prefix, ']', element=2)
+        sleep(1)
 
         # city
-        select_city = Select(self.driver.find_element_by_id('ContentPlaceHolder1_DropDownList3'))
-        select_city.select_by_visible_text(city)
+        self.driver.find_element_by_id('ContentPlaceHolder1_DropDownList3').click()
+        prefix = '/html/body/form/div[7]/div[2]/div/div/div[3]/select/option['
+        self.search(city, prefix, ']', element=2)
 
         # title
         self.driver.find_element_by_xpath('//*[@id="ContentPlaceHolder1_TextBox1"]').send_keys(title)
@@ -965,9 +1041,7 @@ class PostAd11(IPostAds):
 
 
 class PostAd12(IPostAds):
-    """ https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/
-        username: saaz
-    """
+    """ https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/ """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
@@ -988,8 +1062,12 @@ class PostAd12(IPostAds):
         self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/header/div/div/div/nav/ul/li[1]/a').click()
 
         # group
-        select_group = Select(self.driver.find_element_by_id('ad_cat_id'))
-        select_group.select_by_visible_text(main_group)
+        self.driver.find_element_by_id('ad_cat_id').click()
+        prefix = '/html/body/div[1]/div/div[3]/div[2]/div/main/div/div/div/div[2]/' \
+                 'form/table/tbody/tr[2]/td[2]/div/div/select/option['
+        self.search(agahirooz_group, prefix, ']', element=2)
+
+        # first submit button
         sleep(2)
         self.driver.find_element_by_xpath('//*[@id="getcat"]').click()
 
@@ -1006,32 +1084,47 @@ class PostAd12(IPostAds):
         # keywords
         self.driver.find_element_by_xpath('//*[@id="tags_input"]').send_keys(keywords)
 
-        # description
-        self.driver.find_element_by_xpath('//*[@id="post_content"]').send_keys(description)
+        try:
+            # description
+            self.driver.find_element_by_xpath('//*[@id="post_content"]').send_keys(description)
 
-        # Email
-        self.driver.find_element_by_xpath('//*[@id="cp_register_email"]').send_keys(email)
-        sleep(1)
+            # Email
+            self.driver.find_element_by_xpath('//*[@id="cp_register_email"]').send_keys(email)
+            sleep(1)
 
-        self.driver.find_element_by_id('list_image-input')
+            self.driver.find_element_by_id('list_image-input')
 
-        # picture
-        self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div/'
-                                          'main/div/div/div/div[2]/form/div[11]/p[3]/a').click()
-        sleep(1)
-        self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div/main/div/div/div/'
-                                          'div[2]/form/div[11]/div/div[2]/ul/li[3]/div/input').send_keys(picture)
+            # picture
+            self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div/'
+                                              'main/div/div/div/div[2]/form/div[11]/p[3]/a').click()
+            sleep(1)
+            self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div/main/div/div/div/'
+                                              'div[2]/form/div[11]/div/div[2]/ul/li[3]/div/input').send_keys(picture)
+            sleep(1)
+
+        except NoSuchElementException:
+            pass
+
         # scroll down
         self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
-        sleep(5)
+        sleep(2)
 
-        # first submit button   TODO: fixing the submit button
-        self.driver.find_element_by_id('step1').click()
+        try:
+            # first submit button
+            self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div/main/'
+                                              'div/div/div/div[2]/form/input[4]').click()
+            sleep(5)
+        except ElementNotInteractableException:
+            pass
+
+        # scroll down
+        self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
         sleep(2)
 
         # final submit button
-        self.driver.find_element_by_id('step2').click()
-        sleep(2)
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/div/main/'
+                                          'div/div/div/div[2]/form/p[2]/input[2]').click()
+        sleep(1)
 
         # show the ads
         self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/'
@@ -1039,9 +1132,7 @@ class PostAd12(IPostAds):
 
 
 class PostAd13(IPostAds):
-    """ https://parstabligh.org/user_login/
-        username: saaz
-    """
+    """ https://parstabligh.org/user_login/ """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
@@ -1080,6 +1171,42 @@ class PostAd13(IPostAds):
         sleep(2)
         self.post()
 
+    """ For choosing the right group two method 'match' and 'search' needed to be overwritten
+        match() -> math_group()
+        search() -> search_group()
+    """
+    @staticmethod
+    def match_group(string, other):
+        count = 0
+        match_length = len(string)
+        part = len(string.split(' '))
+        for i in string:
+            for j in other:
+                if i == j and i != ' ':
+                    count += 1
+                    break
+
+        if count > ((match_length / 3) * 2) and part == 1:
+            return True
+        elif part > 1:
+            if count > match_length - 3:
+                return True
+        return False
+
+    def search_group(self, string, prefix, suffix, element=1):
+        loop = True
+        while loop:
+            try:
+                pattern = self.driver.find_element_by_xpath(prefix + str(element) + suffix)
+                pattern_txt = str(pattern.text)
+                if self.match_group(string, pattern_txt):
+                    pattern.click()
+                    return element
+
+                element += 1
+            except NoSuchElementException:
+                loop = False
+
     def post(self):
         self.driver.find_element_by_xpath('/html/body/artical/div[2]/div[2]/a').click()
 
@@ -1094,12 +1221,15 @@ class PostAd13(IPostAds):
             .send_keys(website_link)
 
         # province
-        select_province = Select(self.driver.find_element_by_id('item75_select_1'))
-        select_province.select_by_visible_text(province)
+        self.driver.find_element_by_id('item75_select_1').click()
+        prefix = '/html/body/artical/div[6]/form/div/div[4]/div[2]/select[1]/option['
+        self.search(province, prefix, ']', element=3)
+        sleep(1)
 
         # city
-        select_city = Select(self.driver.find_element_by_id('item73_select_1'))
-        select_city.select_by_visible_text(city)
+        self.driver.find_element_by_id('item73_select_1').click()
+        prefix = '/html/body/artical/div[6]/form/div/div[4]/div[2]/select[2]/option['
+        self.search(city, prefix, ']', element=2)
 
         # select free ads option
         Select(self.driver.find_element_by_xpath('/html/body/artical/div[6]/form/'
@@ -1109,8 +1239,9 @@ class PostAd13(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="title"]').send_keys(title)
 
         # group
-        select_group = Select(self.driver.find_element_by_id('catID'))
-        select_group.select_by_visible_text(main_group)
+        self.driver.find_element_by_id('catID').click()
+        prefix = '/html/body/artical/div[6]/form/div/div[9]/select/option['
+        self.search_group(parstabligh_group, prefix, ']', element=2)
 
         # description
         self.driver.find_element_by_xpath('/html/body/artical/div[6]/form/div/textarea').send_keys(description)
@@ -1135,27 +1266,47 @@ class PostAd14(IPostAds):
         # Enter password
         self.driver.find_element_by_xpath('//*[@id="Password"]').send_keys(self.password)
 
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div/div/div[2]/form/div[1]/div/input').click()
         # CAPTCHA delay time
         sleep(12)
 
         # login button
-        self.driver.find_element_by_xpath('/html/body/div/form/fieldset/div[5]/div/button').click()
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div/div/div[2]/form/p[5]/button').click()
 
         self.post()
 
     def post(self):
-        try:
-            self.driver.find_element_by_xpath('/html/body/header/div[3]/a').click()
-            sleep(4)
-
-        except NoSuchElementException:
-            logging.error("Captcha didn't entered correctly - https://www.panikad.com/auth/login/ ")
+        self.driver.get('https://www.panikad.com/auth/ad/add/')
 
         # title
         self.driver.find_element_by_xpath('//*[@id="Title"]').send_keys(title)
 
         # description
         self.driver.find_element_by_xpath('//*[@id="NoticeData"]').send_keys(description)
+
+        # group
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div/div[1]/'
+                                          'div[3]/form/div[2]/div[2]/div/select').click()
+        prefix = '/html/body/div[1]/div/div/div/div/div[1]/div[3]/form/div[2]/div[2]/div/select/option['
+        self.search(panikad_group, prefix, ']', element=2)
+        sleep(1)
+
+        # sub group
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div/div[1]/'
+                                          'div[3]/form/div[2]/div[3]/div/select').click()
+        prefix = '/html/body/div[1]/div/div/div/div/div[1]/div[3]/form/div[2]/div[3]/div/select/option['
+        self.search(panikad_sub_group, prefix, ']')
+
+        # province
+        self.driver.find_element_by_id('States').click()
+        prefix = '/html/body/div[1]/div/div/div/div/div[1]/div[3]/form/div[2]/div[4]/div/select/option['
+        self.search(province, prefix, ']', element=2)
+        sleep(1)
+
+        # city
+        self.driver.find_element_by_id('Cities').click()
+        prefix = '/html/body/div[1]/div/div/div/div/div[1]/div[3]/form/div[2]/div[5]/div/select/option['
+        self.search(city, prefix, ']', element=2)
 
         # short description
         self.driver.find_element_by_xpath('//*[@id="Description"]').send_keys(short_description)
@@ -1166,33 +1317,17 @@ class PostAd14(IPostAds):
         # price
         self.driver.find_element_by_xpath('//*[@id="ProductPrice"]').send_keys(price)
 
-        # group
-        select_group = Select(self.driver.find_element_by_id('Cats'))
-        select_group.select_by_visible_text(main_group)
-        sleep(1)
-
-        # sub group
-        select_sub_group = Select(self.driver.find_element_by_id('SubCats'))
-        select_sub_group.select_by_visible_text(main_sub_group)
-
-        # province
-        select_province = Select(self.driver.find_element_by_id('States'))
-        select_province.select_by_visible_text(province)
-        sleep(1)
-
-        # city
-        select_city = Select(self.driver.find_element_by_id('Cities'))
-        select_city.select_by_visible_text(city)
-
         # picture
-        self.driver.find_element_by_xpath('//*[@id="imgup"]').send_keys(picture)
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div/div[1]/'
+                                          'div[3]/form/div[2]/div[7]/div/input').send_keys(picture)
 
         # address
         self.driver.find_element_by_xpath('//*[@id="Address"]').clear()
         self.driver.find_element_by_xpath('//*[@id="Address"]').send_keys(address)
 
         # submit button
-        self.driver.find_element_by_xpath('/html/body/div/div[1]/div[2]/form/div[2]/div[9]/button').click()
+        self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div/div[1]/div[3]/form/div[3]/div'
+                                          '/button').click()
 
 
 class PostAd15(IPostAds):
@@ -1216,15 +1351,18 @@ class PostAd15(IPostAds):
         self.post()
 
     def post(self):
-        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/'
-                                          'tr[1]/td/table/tbody/tr[1]/td/div/div[1]/a').click()
+        self.driver.get('https://www.novintabligh.com/user.php?DPT=U2')
 
         # group
-        select_group = Select(self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/'
-                                                                'tr/td[1]/table/tbody/tr[1]/td/table[1]/tbody/'
-                                                                'tr/td/table/tbody/tr[4]/td[2]/select'))
-
-        select_group.select_by_visible_text(main_group + " » " + main_sub_group)
+        try:
+            self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/'
+                                              'tr/td[1]/table/tbody/tr[1]/td/table[1]/tbody/'
+                                              'tr/td/table/tbody/tr[4]/td[2]/select').click()
+            prefix = '/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table[1]/tbody/tr/' \
+                     'td/table/tbody/tr[4]/td[2]/select/option['
+            self._search(main_group, main_sub_group, prefix, ']', separate_by='»', element=2)
+        except NoSuchElementException:
+            self.post()
 
         # title
         self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/'
@@ -1240,6 +1378,18 @@ class PostAd15(IPostAds):
         self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/'
                                           'table/tbody/tr[1]/td/table[1]/tbody/tr/td/table/tbody/tr[10]/'
                                           'td/table/tbody/tr/td[2]/input').send_keys(keywords)
+        sleep(2)
+
+        # scroll down
+        phone_element = '/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/' \
+                        'td/table[1]/tbody/tr/td/table/tbody/tr[19]/td[2]/input'
+
+        try:
+            self.driver.execute_script('arguments[0].scrollIntoView(true);', phone_element)
+            sleep(1)
+        except UnexpectedAlertPresentException:
+            pass
+
         # phone
         self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/'
                                           'tbody/tr[1]/td/table[1]/tbody/tr/td/table/'
@@ -1256,14 +1406,11 @@ class PostAd15(IPostAds):
                                           'tr[25]/td[2]/input').send_keys(address)
 
         # city
-        select_city = Select(self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/'
-                                                               'tr/td[1]/table/tbody/tr[1]/td/table[1]/tbody/tr/'
-                                                               'td/table/tbody/tr[16]/td[4]/select'))
-        try:
-            select_city.select_by_visible_text(city)
-
-        except NoSuchElementException:
-            select_city.select_by_visible_text("  " + city)
+        self.driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/'
+                                          'td/table[1]/tbody/tr/td/table/tbody/tr[16]/td[4]/select').click()
+        prefix = '/html/body/table[1]/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/' \
+                 'table[1]/tbody/tr/td/table/tbody/tr[16]/td[4]/select/option['
+        self.search(city, prefix, ']', element=2)
 
         # period
         Select(self.driver.find_element_by_xpath('//*[@id="PLANPERIOD"]')).select_by_visible_text('یک ماه')
@@ -1310,8 +1457,10 @@ class PostAd16(IPostAds):
         self.driver.find_element_by_xpath('/html/body/div/div[4]/div/section[2]/div[1]/div[2]/ul/li[1]/a').click()
 
         # group
-        select_group = Select(self.driver.find_element_by_id('g'))
-        select_group.select_by_visible_text(f'{main_group}   »\u200c   {main_sub_group}')
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/div/section[1]/'
+                                          'div/div[2]/form/div/div[1]/div/select').click()
+        prefix = '/html/body/div/div[4]/div/section[1]/div/div[2]/form/div/div[1]/div/select/option['
+        self._search(main_group, main_sub_group, prefix, ']', separate_by='»', element=2)
 
         # title
         self.driver.find_element_by_xpath('//*[@id="name"]').send_keys(title)
@@ -1319,14 +1468,20 @@ class PostAd16(IPostAds):
         # description
         self.driver.find_element_by_xpath('//*[@id="text"]').send_keys(description)
 
+        # phone
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/div/section[1]/'
+                                          'div/div[2]/form/div/div[5]/div/input').send_keys(phone)
+        sleep(2)
+
         # keywords
         self.driver.find_element_by_xpath('//*[@id="_keywords"]').send_keys(keywords)
-
-        # phone
-        self.driver.find_element_by_xpath('//*[@id="phone"]').send_keys(phone)
+        sleep(1)
 
         # price <تومان>
-        self.driver.find_element_by_xpath('//*[@id="price"]').send_keys(price)
+        try:
+            self.driver.find_element_by_xpath('//*[@id="price"]').send_keys(price)
+        except UnexpectedAlertPresentException:
+            pass
 
         # ads type
         Select(self.driver.find_element_by_xpath('//*[@id="type"]')).select_by_visible_text('رایگان')
@@ -1336,6 +1491,7 @@ class PostAd16(IPostAds):
 
         # picture
         self.driver.find_element_by_xpath('//*[@id="photo1"]').send_keys(picture)
+        sleep(1)
 
         # submit button
         self.driver.find_element_by_xpath('/html/body/div/div[4]/div/section[1]/'
@@ -1343,9 +1499,7 @@ class PostAd16(IPostAds):
 
 
 class PostAd17(IPostAds):
-    """ https://my.niazerooz.com/membership
-        username: 09156455409
-    """
+    """ https://my.niazerooz.com/membership """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
@@ -1467,8 +1621,9 @@ class PostAd18(IPostAds):
                                           'ul/table/tbody/tr[1]/td[2]/p/input').send_keys(title)
 
         # group
-        select_group_and_sub_group = Select(self.driver.find_element_by_id('subcatid'))
-        select_group_and_sub_group.select_by_visible_text(main_group + ' -> ' + main_sub_group)
+        self.driver.find_element_by_id('subcatid').click()
+        prefix = '/html/body/div/div[4]/form/div[2]/div[2]/ul/table/tbody/tr[2]/td[2]/p/select/option['
+        self._search(main_group, main_sub_group, prefix, ']', separate_by='->', element=2)
 
         # description
         self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/div[2]/'
@@ -1496,21 +1651,17 @@ class PostAd18(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="keywords"]').send_keys(keywords.replace('  ', '\n'))
 
         # province
-        try:
-            select_province = Select(self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/div[2]/'
-                                                                       'ul/table/tbody/tr[8]/td[4]/p/select'))
-            select_province.select_by_visible_text(province)
-        except NoSuchElementException:
-            pass
+        self.driver.find_element_by_xpath('/html/body/div/div[4]/form/div[2]/div[2]/'
+                                          'ul/table/tbody/tr[8]/td[4]/p/select').click()
+        prefix = '/html/body/div/div[4]/form/div[2]/div[2]/ul/table/tbody/tr[8]/td[4]/p/select/option['
+        self.search(province, prefix, ']')
 
         # submit button
         self.driver.find_element_by_xpath('//*[@id="b1"]').click()
 
 
 class PostAd19(IPostAds):
-    """ http://newagahi.ir/login_register.php
-        username: saaz
-    """
+    """ http://newagahi.ir/login_register.php """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
@@ -1663,13 +1814,17 @@ class PostAd20(IPostAds):
         self.driver.find_element_by_xpath('/html/body/div[1]/header/nav/div[3]/ul/li/a').click()
 
         # group
-        select_group = Select(self.driver.find_element_by_id('ad_cat_id'))
-        select_group.select_by_visible_text(main_group)
+        self.driver.find_element_by_id('ad_cat_id').click()
+        prefix = '/html/body/div[1]/div[1]/div/main/div/div/div/div[2]/' \
+                 'form/table/tbody/tr[2]/td[2]/div/div[1]/select/option['
+        self.search(ap_group, prefix, ']', element=2)
         sleep(2)
 
         # sub group
-        select_sub_group = Select(self.driver.find_element_by_css_selector('#catlvl1 > select:nth-child(1)'))
-        select_sub_group.select_by_visible_text(main_sub_group)
+        self.driver.find_element_by_css_selector('#catlvl1 > select:nth-child(1)').click()
+        prefix = '/html/body/div[1]/div[1]/div/main/div/div/div/div[2]/form/' \
+                 'table/tbody/tr[2]/td[2]/div/div[2]/select/option['
+        self.search(ap_sub_group, prefix, ']', element=2)
         sleep(2)
 
         # first submit button
@@ -1686,8 +1841,9 @@ class PostAd20(IPostAds):
         self.driver.find_element_by_xpath('//*[@id="cp_mobile"]').send_keys(phone)
 
         # province
-        select_province = Select(self.driver.find_element_by_xpath('//*[@id="cp_state"]'))
-        select_province.select_by_visible_text(province)
+        self.driver.find_element_by_xpath('//*[@id="cp_state"]').click()
+        prefix = '/html/body/span/span/span[2]/ul/li['
+        self.search(province, prefix, ']', element=2)
 
         # description
         self.driver.find_element_by_xpath('//*[@id="post_content"]').send_keys(description)
@@ -1800,9 +1956,7 @@ class PostAd21(IPostAds):
 
 
 class PostAd22(IPostAds):
-    """ https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
-        username: saaz
-    """
+    """ https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
@@ -1827,15 +1981,13 @@ class PostAd22(IPostAds):
         sleep(2)
 
         # group
-        select_group = Select(self.driver.find_element_by_xpath('/html/body/div/div[1]/section/div/div/'
-                                                                'section/section/div/div[1]/ul[2]/li/div/select'))
-        select_group.select_by_visible_text(main_group)
+        prefix = '/html/body/div/div[1]/section/div/div/section/section/div/div[1]/ul[2]/li/div[1]/select/option['
+        self.search(agahichi_group, prefix, ']', element=2)
         sleep(2)
 
         # sub group
-        select_sub_group = Select(self.driver.find_element_by_xpath('/html/body/div/div[1]/section/div/div/section/'
-                                                                    'section/div/div[1]/ul[2]/li/div[2]/select'))
-        select_sub_group.select_by_visible_text(main_sub_group)
+        prefix = '/html/body/div/div[1]/section/div/div/section/section/div/div[1]/ul[2]/li/div[2]/select/option['
+        self.search(agahichi_sub_group, prefix, ']', element=2)
         sleep(2)
 
         # submit group & sub group
@@ -1883,17 +2035,21 @@ class PostAd22(IPostAds):
         sleep(1)
 
         # province
-        select_province = Select(self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/section/div/div/section/'
-                                                                   'section/div/div[2]/div[4]/div[2]/form/div/div[3]/'
-                                                                   'div/div[2]/div[2]/div[2]/select'))
-        select_province.select_by_visible_text(province)
+        self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/section/div/div/section/'
+                                          'section/div/div[2]/div[4]/div[2]/form/div/div[3]/'
+                                          'div/div[2]/div[2]/div[2]/select').click()
+        prefix = '/html/body/div[1]/div[1]/section/div/div/section/section/div/div[2]/div[4]/div[2]/' \
+                 'form/div/div[3]/div/div[2]/div[2]/div[2]/select/option['
+        self.search(province, prefix, ']', element=2)
         sleep(2)
 
         # city
-        select_city = Select(self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/section/div/div/section/'
-                                                               'section/div/div[2]/div[4]/div[2]/form/div/div[3]/'
-                                                               'div/div[2]/div[3]/div[2]/select'))
-        select_city.select_by_visible_text(city)
+        self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/section/div/div/section/'
+                                          'section/div/div[2]/div[4]/div[2]/form/div/div[3]/'
+                                          'div/div[2]/div[3]/div[2]/select').click()
+        prefix = '/html/body/div[1]/div[1]/section/div/div/section/section/div/div[2]/div[4]/div[2]/form/div' \
+                 '/div[3]/div/div[2]/div[3]/div[2]/select/option['
+        self.search(city, prefix, ']', element=2)
         sleep(2)
 
         # picture
@@ -1911,9 +2067,12 @@ class PostAd22(IPostAds):
 
         # submit button
         for i in range(2):
-            self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/section/div/div/'
-                                              'section/section/div/div[2]/div[4]/div[4]/input').click()
-            sleep(2)
+            try:
+                self.driver.find_element_by_xpath('/html/body/div[1]/div[1]/section/div/div/'
+                                                  'section/section/div/div[2]/div[4]/div[4]/input').click()
+                sleep(2)
+            except NoSuchElementException:
+                pass
 
 
 class PostAd23(IPostAds):
@@ -3166,94 +3325,3 @@ class PostAd34(IPostAds):
         # final submit button
         self.driver.find_element_by_xpath('/html/body/div/main/section/div/div/div/'
                                           'article/section/div/div[2]/div/button[1]').click()
-
-
-"""
-1 - make all INFO into the global -> done
-2 - separate captcha site from non-captcha -> done
-3 - specifying group & sub-group for each class -> done
-4 - make sure that the different username & password goes at the right class -> done
-5 - make select statement in classes into search
-"""
-
-with open('info.txt', 'r', encoding='utf-8') as info:
-    file = info.readlines()
-    for line in file:
-        line = line.split('=')
-        if 'default_username' in line[0]:
-            _username = line[1].strip()
-
-        if 'default_password' in line[0]:
-            _password = line[1].strip()
-
-        if 'title' in line[0]:
-            title = line[1].strip()
-
-        if 'description' == line[0].strip():
-            description = line[1].strip()
-
-        if 'short_description' in line[0]:
-            short_description = line[1].strip()
-
-        if 'address' in line[0]:
-            address = line[1].strip()
-
-        if 'province' in line[0]:
-            province = line[1].strip()
-
-        if 'city' in line[0]:
-            city = line[1].strip()
-
-        if 'name' in line[0]:
-            name = line[1].strip()
-
-        if 'phone' in line[0]:
-            phone = line[1].strip()
-
-        if 'home-phone' in line[0]:
-            home_phone = line[1].strip()
-
-        if 'keywords' in line[0]:
-            keywords = line[1] + '  '
-
-        if 'website-title' in line[0]:
-            website_title = line[1].strip()
-
-        if 'website_link' in line[0]:
-            website_link = line[1].strip()
-
-        if 'picture' in line[0]:
-            picture = line[1].strip()
-
-        if 'price' in line[0]:
-            price = line[1].strip()
-
-        if 'email' in line[0]:
-            email = line[1].strip()
-
-        if 'main-group' in line[0]:
-            main_group = line[1].strip()
-
-        if 'main-sub-group' in line[0]:
-            main_sub_group = line[1].strip()
-
-        if 'other-group' in line[0]:
-            other_group = line[1].strip()
-
-        if 'other-sub-group' in line[0]:
-            other_sub_group = line[1].strip()
-
-        if 'other-sub-sub-group' in line[0]:
-            other_sub_sub_group = line[1].strip()
-
-        if 'netmoj-group' in line[0]:
-            netmoj_group = line[1].strip()
-
-        if 'netmoj-sub-group' in line[0]:
-            netmoj_sub_group = line[1].strip()
-
-        if 'netmoj-sub-sub-group' in line[0]:
-            netmoj_sub_sub_group = line[1].strip()
-
-
-# ad = PostAd4('https://persianagahi.com', _username, _password)
