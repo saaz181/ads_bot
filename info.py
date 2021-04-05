@@ -149,3 +149,12 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'agahichi-sub-group' in line[0]:
             agahichi_sub_group = line[1].strip()
 
+        if 'shetab-group' == line[0].strip():
+            shetab_group = line[1].strip()
+
+        if 'shetab-sub-group' == line[0].strip():
+            shetab_sub_group = line[1].strip()
+
+        if 'shetab-sub-sub-group' in line[0]:
+            shetab_sub_sub_group = line[1].strip()
+

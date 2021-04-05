@@ -69,3 +69,9 @@ ap_sub_group =  برنامه نویسی
 ### https://www.agahichi.com/
 agahichi-group = کامپیوتر و اینترنت
 agahichi-sub-group = کامپیوتر
+
+
+### http://shetabe.ir/
+shetab-group = مالی و اداری
+shetab-sub-group =  خدمات اداری
+shetab-sub-sub-group =  اعلام تصمیمات شرکتها
