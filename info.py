@@ -45,13 +45,37 @@ with open('info.txt', 'r', encoding='utf-8') as info:
             website_link = line[1].strip()
 
         if 'picture' in line[0]:
-            picture = line[1].strip()
+            picture = r'' + line[1].strip()
 
         if 'price' in line[0]:
             price = line[1].strip()
 
         if 'email' in line[0]:
             email = line[1].strip()
+
+        if '71ap-username' in line[0]:
+            ap_username = line[1].strip()
+
+        if '71ap-password' in line[0]:
+            ap_password = line[1].strip()
+
+        if 'niazerooz-username' in line[0]:
+            niazerooz_username = line[1].strip()
+
+        if 'niazerooz-password' in line[0]:
+            niazerooz_password = line[1].strip()
+
+        if 'sellfree-username' in line[0]:
+            sellfree_username = line[1].strip()
+
+        if 'sellfree-password' in line[0]:
+            sellfree_password = line[1].strip()
+
+        if 'most-username' in line[0]:
+            most_username = line[1].strip()
+
+        if 'most-password' in line[0]:
+            most_password = line[1].strip()
 
         if 'main-group' in line[0]:
             main_group = line[1].strip()
@@ -107,30 +131,6 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'parstabligh-group' in line[0]:
             parstabligh_group = line[1].strip()
 
-        if '71ap-username' in line[0]:
-            ap_username = line[1].strip()
-
-        if '71ap-password' in line[0]:
-            ap_password = line[1].strip()
-
-        if 'niazerooz-username' in line[0]:
-            niazerooz_username = line[1].strip()
-
-        if 'niazerooz-password' in line[0]:
-            niazerooz_password = line[1].strip()
-
-        if 'sellfree-username' in line[0]:
-            sellfree_username = line[1].strip()
-
-        if 'sellfree-password' in line[0]:
-            sellfree_password = line[1].strip()
-
-        if 'most-username' in line[0]:
-            most_username = line[1].strip()
-
-        if 'most-password' in line[0]:
-            most_password = line[1].strip()
-
         if 'panikad-group' in line[0]:
             panikad_group = line[1].strip()
 
@@ -157,4 +157,91 @@ with open('info.txt', 'r', encoding='utf-8') as info:
 
         if 'shetab-sub-sub-group' in line[0]:
             shetab_sub_sub_group = line[1].strip()
+
+        if 'tejjari-group' == line[0].strip():
+            tejjari_group = line[1].strip()
+
+        if 'tejjari-sub-group' == line[0].strip():
+            tejjari_sub_group = line[1].strip()
+
+        if 'tejjari-sub-sub-group' == line[0].strip():
+            tejjari_sub_sub_group = line[1].strip()
+
+        if 'tejjari-sub-sub-sub-group' in line[0]:
+            tejjari_sub_sub_sub_group = line[1].strip()
+
+        if 'xoonrang-group' == line[0].strip():
+            xoonrang_group = line[1].strip()
+
+        if 'xoonrang-sub-group' in line[0]:
+            xoonrang_sub_group = line[1].strip()
+
+        if 'jarchi-group' == line[0].strip():
+            jarchi_group = line[1].strip()
+
+        if 'jarchi-sub-group' == line[0].strip():
+            jarchi_sub_group = line[1].strip()
+
+        if 'jarchi-sub-sub-group' in line[0].strip():
+            jarchi_sub_sub_group = line[1].strip()
+
+        if 'nama-group' == line[0].strip():
+            nama_group = line[1].strip()
+
+        if 'nama-sub-group' == line[0].strip():
+            nama_sub_group = line[1].strip()
+
+        if 'nama-sub-sub-group' in line[0]:
+            nama_sub_sub_group = line[1].strip()
+
+        if 'eshareh-group' == line[0].strip():
+            eshareh_group = line[1].strip()
+
+        if 'eshareh-sub-group' in line[0]:
+            eshareh_sub_group = line[1].strip()
+
+        if 'fanoos-group' == line[0].strip():
+            fanoos_group = line[1].strip()
+
+        if 'fanoos-sub-group' in line[0]:
+            fanoos_sub_group = line[1].strip()
+
+        if 'mihan-group' == line[0].strip():
+            mihan_group = line[1].strip()
+
+        if 'mihan-sub-group' == line[0].strip():
+            mihan_sub_group = line[1].strip()
+
+        if 'mihan-sub-sub-group' in line[0]:
+            mihan_sub_sub_group = line[1].strip()
+
+        if '3030l-group' == line[0].strip():
+            cicil_group = line[1].strip()
+
+        if '3030l-sub-group' == line[0].strip():
+            cicil_sub_group = line[1].strip()
+
+        if '3030l-sub-sub-group' in line[0]:
+            cicil_sub_sub_group = line[1].strip()
+
+        if 'service-group' == line[0].strip():
+            service_group = line[1].strip()
+
+        if 'service-sub-group' == line[0].strip():
+            service_sub_group = line[1].strip()
+
+        if 'rahnama-group' == line[0].strip():
+            rahnama_group = line[1].strip()
+
+        if 'rahnama-sub-group' in line[0]:
+            rahnama_sub_group = line[1].strip()
+
+        if 'takniz-group' == line[0].strip():
+            takniz_group = line[1].strip()
+
+        if 'takniz-sub-group' == line[0].strip():
+            takniz_sub_group = line[1].strip()
+
+        if 'takniz-province' in line[0]:
+            takniz_province = line[1].strip()
 

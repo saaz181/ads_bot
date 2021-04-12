@@ -8,7 +8,8 @@ link = [
         [PostAd21, links[20]],
         [PostAd25, links[24]],
         [PostAd28, links[27]],
-        [PostAd29, links[28]]
+        [PostAd29, links[28]],
+        [PostAd32, links[31]],
     ]
 
 for website in link:
@@ -22,3 +23,5 @@ for website in link:
         logging.error(f'Failed at {website[1]}')
     except FileNotFoundError:
         pass
+
+close_()

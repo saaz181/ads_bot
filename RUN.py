@@ -1,11 +1,13 @@
 from robot import *
 import logging
+from selenium.common.exceptions import NoSuchWindowException
 from info import (_username_, _password_,
                   ap_username, ap_password,
                   niazerooz_username, niazerooz_password,
                   sellfree_username, sellfree_password,
                   most_username, most_password
                   )
+
 
 posts = [
     [PostAd1, links[0]],
@@ -32,7 +34,7 @@ posts = [
     # PostAd29 in RUN_CAPTCHA
     [PostAd30, links[29]],
     [PostAd31, links[30]],
-    [PostAd32, links[31]],
+    # PostAd32 in RUN_CAPTCHA
     [PostAd34, links[33]],
 ]
 
@@ -55,6 +57,8 @@ for post in posts:
         ad = post[0](_url_, _username_, _password_)
         sleep(2)
         ad.close()
+    except NoSuchWindowException:
+        pass
     except Exception as error:
         print(error)
         logging.error(f"Failed at {post[1]}")
@@ -70,3 +74,6 @@ for post in different_user_pass_posts:
     except Exception as error:
         print(error)
         logging.error(f"Failed at {post[3]}")
+
+
+close_()

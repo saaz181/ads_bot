@@ -1,23 +1,46 @@
+default_username =
+default_password =
 
+##### DIFFERENT USERNAME & PASSWORDS #####
 
-title = خیسنبخسنیبخسنخینبسنیبخنسلام
-description =  سلام جبیسبیخستبهخستببدهسیبهسیبهتسیبهختسیخهبتسخهیبتخسیهتبسیهخبتسیخهبتسبخهستبسیهخبتتسهخبتیسهختبسیهخبتسیهختب
-short_description =  نیهشستیهشتسهیتسشهیشسیتشسه
-address =  شخبنیسهبتخسیهبتسشهخبتسخبهسبخهتبئیب
-province =  خراسان زضوی
+WEBSITE: https://71ap.ir/login/
+71ap-username =
+71ap-password =
+
+WEBSITE: https://my.niazerooz.com/membership  این سایتش امروز خراب شده برای من بالا نمیاد
+niazerooz-username =
+niazerooz-password =
+
+WEBSITE: https://sellfree.ir/
+sellfree-username = 
+sellfree-password =
+
+WEBSITE: http://darsanat.ir/login_register.php, https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/, https://parstabligh.org/user_login/,
+         http://newagahi.ir/login_register.php, https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
+
+most-username =
+most-password =
+
+############################################
+
+title =  سیلبیلیبلبیلبیابالبالبا
+description =  ابلابلابلابلابالتلتالتانتانتمنتمتنمالبابلابلابلابلالبالالیبالتانمخکخمتوذدئرذدبایقلصصبسبییسبلبیلبیلیبلالاتفاغع6ع787هائد ذبل
+short_description = بلالالبتلتالتاننهقفلسبیسربدالننا
+address =  بلالبالبالتتلثبیسبیلبیل
+province = خراسان رضوی
 city = مشهد
-name =  علی
-phone =  09156455409
-home-phone = 05138442149
+name =  حسین
+phone =  09121233212
+home-phone = 05132213646
 
 #### بین کلمات کلیدی 2 تا فاصله<space> بذارید ####
-keywords =  سبیبیس   یبسیبسبیب  سبسیبسبی  سیبسیب
+keywords = سیبیسب  بیسبسیبیسب  یسبسیبیسب  سیبیسببی
 
-website-title = asdasdd
+website-title =
 website_link =  https://example.com
 picture =  C:\Users\Sabalan\Pictures\index.jpg
-price =  2555000
-email =  saliaz.mg326@gmail.com
+price =  123000
+email = saliaz.mg@gmail.com
 
 
 ##### GROUP & SUB-GROUP #####
@@ -25,7 +48,7 @@ email =  saliaz.mg326@gmail.com
 main-group = کامپیوتر
 main-sub-group =  برنامه نویسی
 
-#### http://sabzads.com/new, https://googleagahi.com/auth ####
+#### http://sabzads.com/new, https://googleagahi.com/auth, https://agahiaria.ir/auth ####
 other-group = لوازم الکترونیکی
 other-sub-group =  رایانه
 other-sub-sub-group =  متفرقه
@@ -57,7 +80,6 @@ agahirooz-group = آرایشگری و زیبایی
 ### https://parstabligh.org/
 parstabligh-group = طلا و جواهر
 
-
 ### https://www.panikad.com/
 panikad-group = ارتباطات
 panikad-sub-group = پنل ارسال SMS
@@ -75,3 +97,60 @@ agahichi-sub-group = کامپیوتر
 shetab-group = مالی و اداری
 shetab-sub-group =  خدمات اداری
 shetab-sub-sub-group =  اعلام تصمیمات شرکتها
+
+
+### http://www.tejaari.com/Advertisement/adnew
+
+tejjari-group = کامپیوتر و اینترنت
+tejjari-sub-group = کامپیوتر
+tejjari-sub-sub-group = خدمات کامپیوتر
+tejjari-sub-sub-sub-group = نرم افزار
+
+### http://xoonarg.com
+xoonrang-group = لوازم الکترونیک
+xoonrang-sub-group = رایانه
+
+
+### https://jarchi.me/newad/
+jarchi-group = لوازم الکترونیکی
+jarchi-sub-group = رایانه (کامپیوتر)
+jarchi-sub-sub-group = رایانه رومیزی
+
+
+### https://100nama.com/user/submit-ad
+nama-group = خدمات
+nama-sub-group = کامپیوتر و موبایل
+nama-sub-sub-group =  نرم افزار
+
+### https://www.1eshareh.com/AddNotice.aspx
+eshareh-group = لوازم الکترونیکی
+eshareh-sub-group =  گوشی موبایل
+
+
+### https://www.2fanoos.com/new
+fanoos-group = خدمات و کسب و کار
+fanoos-sub-group = مراسم وکترینگ
+
+
+### https://www.2mihan.com/login/
+mihan-group = خدمات
+mihan-sub-group = خدمات رایانه ای و موبایل
+mihan-sub-sub-group = خدمات پهنای باند
+
+### https://3030l.net/new
+3030l-group = لوازم الکترونیکی
+3030l-sub-group = رایانه
+3030l-sub-sub-group = قطعات و لوازم جانبی
+
+### https://www.3ervice.com/
+service-group = خدمات
+service-sub-group = خدمات رایانه ای
+
+### https://www.rahnama118.com/ads/addprop
+rahnama-group = تبلیغات
+rahnama-sub-group = تایپ و تکثیر
+
+### https://www.takniaz.com/ads/addprop
+takniz-group = صنعتی
+takniz-sub-group = برق صنعتی
+takniz-province = خراسان

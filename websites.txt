@@ -14,7 +14,7 @@ https://parstabligh.org/user_login/
 https://www.panikad.com/auth/login/
 https://www.novintabligh.com/login.html
 https://www.takro.net/
-https://my.niazerooz.com/membership
+https://my.niazerooz.com/membership   BROKEN
 https://eforosh.com/
 http://newagahi.ir/login_register.php
 https://71ap.ir/login/
@@ -32,3 +32,7 @@ http://xoonarg.com/
 https://agahiaria.ir/auth
 http://darsanat.ir/login_register.php
 https://jarchi.me/my-account/
+https://100nama.com/sign-in
+https://www.1eshareh.com/login.aspx?ReturnUrl=%2f
+https://www.2fanoos.com/auth
+

@@ -142,3 +142,7 @@ dmypy.json
 cython_debug/
 
 *.xlsx
+
+structure.txt
+ads_bot.rar
+snake_game.py
