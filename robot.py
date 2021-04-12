@@ -40,6 +40,13 @@ links = [
     'https://www.1eshareh.com/login.aspx?ReturnUrl=%2f', 'https://www.2fanoos.com/auth',
     'https://www.2mihan.com/login/', 'https://3030l.net/auth', 'https://www.3ervice.com/%d9%88%d8%b1%d9%88%d8%af/',
     'https://www.rahnama118.com/framework/user/login', 'https://www.takniaz.com/framework/user/login',
+    'https://www.novin-tejarat.com/framework/user/login', 'https://www.ptweb.ir/framework/user/login',
+    'https://www.payamsara.com/framework/user/login', 'https://www.tablegh118.com/framework/user/login',
+    'https://www.protabligh.com/framework/user/login', 'https://www.agahibartar.net/framework/user/login',
+    'https://www.myniazmandi.com/framework/user/login', 'https://www.niazmandi-iran.com/framework/user/login', 
+    'https://www.agahe118.com/framework/user/login',
+
+
 ]
 
 
@@ -161,7 +168,7 @@ class IPostAds(metaclass=ABCMeta):
                 pattern = self.driver.find_element_by_xpath(prefix + str(element) + suffix)
                 pattern_txt = str(pattern.text).strip()
 
-                if self._match(string, pattern_txt):
+                if self._match_(string, pattern_txt):
                     pattern.click()
                     return element
 
@@ -719,8 +726,8 @@ class PostAd7(IPostAds):
         sleep(2)
 
         # sub group
-        prefix = '/html/body/div[2]/div/div[2]/div/div[2]/div/form/div/div/div[1]/fieldset/div[2]/div[4]/div/select/' \
-                 'option['
+        prefix = '/html/body/div[2]/div/div[2]/div/div[2]/div/form/div/div/div[1]/fieldset/div[2]/div[4]/div/' \
+                 'select/option['
         self.group_search(str(self.ads_page()[2]), prefix, ']', element=2)
 
         # description
@@ -4051,6 +4058,7 @@ class PostAd40(IPostAds):
         except NoSuchElementException:
             pass
 
+""" PostAd7 has the same page with the classes from 41-  """
 
 class PostAd41(PostAd7):
     """ https://www.rahnama118.com/framework/user/login """
@@ -4058,7 +4066,7 @@ class PostAd41(PostAd7):
         page = 'https://www.rahnama118.com/ads/addprop'
         group = rahnama_group
         sub_group = rahnama_sub_group
-        return page, group, sub_group, province, 'nds'
+        return page, group, sub_group, province, ''
 
 
 class PostAd42(PostAd7):
@@ -4068,5 +4076,165 @@ class PostAd42(PostAd7):
         group = takniz_group
         sub_group = takniz_sub_group
         return page, group, sub_group, takniz_province, 'nds'
+
+
+class PostAd43(PostAd7):
+    """ https://www.novin-tejarat.com/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.novin-tejarat.com/ads/addprop'
+        group = novin_tajarat_group
+        sub_group = novin_tajarat_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd44(PostAd7):
+    """ https://www.ptweb.ir/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.ptweb.ir/ads/addprop'
+        group = ptweb_group
+        sub_group = ptweb_sub_group
+        return page, group, sub_group, province, 'nds'
+
+
+class PostAd45(PostAd7):
+    """ https://www.payamsara.com/framework/user/login """
+    @staticmethod
+    def _match_(string, other):
+        count = 0
+        match_length = len(string)
+        for i in string:
+            for j in other:
+                if i == j and i != ' ':
+                    count += 1
+                    break
+
+        if count > ((match_length / 3) * 2):
+            return True
+        return False
+
+    def group_search(self, string, prefix, suffix, element=1):
+        loop = True
+        while loop:
+            try:
+                pattern = self.driver.find_element_by_xpath(prefix + str(element) + suffix)
+                pattern_txt = str(pattern.text).strip()
+
+                if self._match_(string, pattern_txt):
+                    pattern.click()
+                    return element
+
+                element += 1
+            except NoSuchElementException:
+                loop = False
+
+    def ads_page(self):
+        page = 'https://www.payamsara.com/ads/addprop'
+        group = payamsara_group
+        sub_group = payamsara_sub_group
+        return page, group, sub_group, province, 'nds'
+
+
+class PostAd46(PostAd45):
+    """ https://www.tablegh118.com/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.tablegh118.com/ads/addprop'
+        group = tablegh118_group
+        sub_group = tablegh118_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd47(PostAd7):
+    """ https://www.protabligh.com/framework/user/login """
+    @staticmethod
+    def _match_(string, other):
+        count = 0
+        match_length = len(string)
+        for i in string:
+            for j in other:
+                if i == j and i != ' ':
+                    count += 1
+                    break
+
+        if count > ((match_length / 3) * 2) + 1:
+            return True
+        return False
+
+    def group_search(self, string, prefix, suffix, element=1):
+        loop = True
+        while loop:
+            try:
+                pattern = self.driver.find_element_by_xpath(prefix + str(element) + suffix)
+                pattern_txt = str(pattern.text).strip()
+
+                if self._match_(string, pattern_txt):
+                    pattern.click()
+                    return element
+
+                element += 1
+            except NoSuchElementException:
+                loop = False
+
+    def ads_page(self):
+        page = 'https://www.protabligh.com/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd48(PostAd47):
+    """ https://www.agahibartar.net/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.agahibartar.net/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd49(PostAd47):
+    """ https://www.myniazmandi.com/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.myniazmandi.com/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd50(PostAd45):
+    # TODO: need to fix some bug in province choice
+    """ https://www.niazmandi-iran.com/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.niazmandi-iran.com/ads/addprop'
+        group = niazmandi_iran_group
+        sub_group = niazmandi_iran_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd51(PostAd7):
+    """ https://www.agahe118.com/framework/user/login """
+
+    @staticmethod
+    def _match_(string, other):
+        count = 0
+        match_length = len(string)
+        for i in string:
+            for j in other:
+                if i == j and i != ' ':
+                    count += 1
+                    break
+        m = 0
+        if count > ((match_length / 3) * 2) + 1:
+            m += 1
+            return True
+
+        if count > ((match_length / 3) * 2) and m == 0:
+            return True
+
+        return False
+
+    def ads_page(self):
+        page = 'https://www.agahe118.com/ads/addprop'
+        group = agahe118_group
+        sub_group = agahe118_sub_group
+        return page, group, sub_group, province, ''
 
 

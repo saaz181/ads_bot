@@ -1,5 +1,5 @@
-default_username =
-default_password =
+default_username = saliaz.mg326@gmail.com
+default_password = 0926218867
 
 ##### DIFFERENT USERNAME & PASSWORDS #####
 
@@ -18,8 +18,8 @@ sellfree-password =
 WEBSITE: http://darsanat.ir/login_register.php, https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/, https://parstabligh.org/user_login/,
          http://newagahi.ir/login_register.php, https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
 
-most-username =
-most-password =
+most-username = saaz
+most-password = 0926218867
 
 ############################################
 
@@ -154,3 +154,35 @@ rahnama-sub-group = تایپ و تکثیر
 takniz-group = صنعتی
 takniz-sub-group = برق صنعتی
 takniz-province = خراسان
+
+
+### https://www.novin-tejarat.com/ads/addprop
+novin-tejarat-group = کشاورزی
+novin-tejarat-sub-group =  کشت و صنعت
+
+
+### https://www.ptweb.ir/ads/addprop
+ptweb-group = پزشکی و درمانی
+ptweb-sub-group = آزمایشگاه و داروخانه
+
+### https://www.payamsara.com/ads/addprop
+payamsara-group = خدماتی
+payamsara-sub-group = بیمه
+
+### https://www.tablegh118.com/ads/addprop
+tablegh118-group = کامپیوتری
+tablegh118-sub-group = شبکه
+
+### https://www.protabligh.com/ads/addprop, https://www.agahibartar.net/ads/addprop, https://www.myniazmandi.com/ads/addprop
+protabligh-group = کامپیوتر و شبکه
+protabligh-sub-group = برنامه نویسی
+
+
+### https://www.niazmandi-iran.com/ads/addprop
+niazmandi-iran-group = کامپیوتر
+niazmandi-iran-sub-group = برنامه نویسی
+
+### https://www.agahe118.com/ads/addprop
+agahe118-group = معرفی وب ها
+agahe118-sub-group = ورزشی
+

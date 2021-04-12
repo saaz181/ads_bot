@@ -36,8 +36,6 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 passwords.txt
-info.txt
-*.txt
 
 # Unit test / coverage reports
 htmlcov/
@@ -146,3 +144,4 @@ cython_debug/
 structure.txt
 ads_bot.rar
 snake_game.py
+info.txt

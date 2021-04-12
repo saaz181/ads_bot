@@ -20,7 +20,7 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'address' in line[0]:
             address = line[1].strip()
 
-        if 'province' in line[0]:
+        if 'province' == line[0].strip():
             province = line[1].strip()
 
         if 'city' in line[0]:
@@ -245,3 +245,63 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'takniz-province' in line[0]:
             takniz_province = line[1].strip()
 
+        if 'novin-tejarat-group' == line[0].strip():
+            novin_tajarat_group = line[1].strip()
+
+        if 'novin-tejarat-sub-group' in line[0]:
+            novin_tajarat_sub_group = line[1].strip()
+
+        if 'ptweb-group' == line[0].strip():
+            ptweb_group = line[1].strip()
+
+        if 'ptweb-sub-group' in line[0]:
+            ptweb_sub_group = line[1].strip()
+
+        if 'payamsara-group' == line[0].strip():
+            payamsara_group = line[1].strip()
+
+        if 'payamsara-sub-group' in line[0]:
+            payamsara_sub_group = line[1].strip()
+
+        if 'tablegh118-group' == line[0].strip():
+            tablegh118_group = line[1].strip()
+
+        if 'tablegh118-sub-group' in line[0]:
+            tablegh118_sub_group = line[1].strip()
+
+        if 'protabligh-group' == line[0].strip():
+            protabligh_group = line[1].strip()
+
+        if 'protabligh-sub-group' in line[0]:
+            protabligh_sub_group = line[1].strip()
+
+        if 'niazmandi-iran-group' == line[0].strip():
+            niazmandi_iran_group = line[1].strip()
+
+        if 'niazmandi-iran-sub-group' in line[0]:
+            niazmandi_iran_sub_group = line[1].strip()
+
+        if 'agahe118-group' == line[0].strip():
+            agahe118_group = line[1].strip()
+
+        if 'agahe118-sub-group' == line[0].strip():
+            agahe118_sub_group = line[1].strip()
+
+
+'''def _match_(string, other):
+    count = 0
+    match_length = len(string)
+    for i in string:
+        for j in other:
+            if i == j and i != ' ':
+                count += 1
+                break
+
+    if count > ((match_length / 3) * 2) + 1:
+            return True
+
+    if count > ((match_length / 3) * 2):
+        return True
+    
+    return False
+'''
