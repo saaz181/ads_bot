@@ -44,7 +44,10 @@ links = [
     'https://www.payamsara.com/framework/user/login', 'https://www.tablegh118.com/framework/user/login',
     'https://www.protabligh.com/framework/user/login', 'https://www.agahibartar.net/framework/user/login',
     'https://www.myniazmandi.com/framework/user/login', 'https://www.niazmandi-iran.com/framework/user/login', 
-    'https://www.agahe118.com/framework/user/login',
+    'https://www.agahe118.com/framework/user/login', 'https://www.mytabligh.net/framework/user/login',
+    'https://www.iran-agahi.com/framework/user/login', 'https://www.irantabligh.net/framework/user/login',
+    'https://www.niaziran.net/framework/user/login', 'https://www.niaztehran.com/framework/user/login',
+
 
 
 ]
@@ -4235,6 +4238,51 @@ class PostAd51(PostAd7):
         page = 'https://www.agahe118.com/ads/addprop'
         group = agahe118_group
         sub_group = agahe118_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd52(PostAd47):
+    """ https://www.mytabligh.net/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.mytabligh.net/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd53(PostAd47):
+    """ https://www.iran-agahi.com/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.iran-agahi.com/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd54(PostAd47):
+    """ https://www.irantabligh.net/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.irantabligh.net/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd55(PostAd47):
+    """ https://www.niaziran.net/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.niaziran.net/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
+        return page, group, sub_group, province, ''
+
+
+class PostAd56(PostAd47):
+    """ https://www.niaztehran.com/framework/user/login """
+    def ads_page(self):
+        page = 'https://www.niaztehran.com/ads/addprop'
+        group = protabligh_group
+        sub_group = protabligh_sub_group
         return page, group, sub_group, province, ''
 
 

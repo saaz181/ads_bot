@@ -286,22 +286,3 @@ with open('info.txt', 'r', encoding='utf-8') as info:
 
         if 'agahe118-sub-group' == line[0].strip():
             agahe118_sub_group = line[1].strip()
-
-
-'''def _match_(string, other):
-    count = 0
-    match_length = len(string)
-    for i in string:
-        for j in other:
-            if i == j and i != ' ':
-                count += 1
-                break
-
-    if count > ((match_length / 3) * 2) + 1:
-            return True
-
-    if count > ((match_length / 3) * 2):
-        return True
-    
-    return False
-'''

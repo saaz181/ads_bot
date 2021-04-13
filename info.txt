@@ -174,6 +174,7 @@ tablegh118-group = کامپیوتری
 tablegh118-sub-group = شبکه
 
 ### https://www.protabligh.com/ads/addprop, https://www.agahibartar.net/ads/addprop, https://www.myniazmandi.com/ads/addprop
+### https://www.mytabligh.net/ads/addprop, https://www.irantabligh.net/ads/addprop
 protabligh-group = کامپیوتر و شبکه
 protabligh-sub-group = برنامه نویسی
 
@@ -185,4 +186,6 @@ niazmandi-iran-sub-group = برنامه نویسی
 ### https://www.agahe118.com/ads/addprop
 agahe118-group = معرفی وب ها
 agahe118-sub-group = ورزشی
+
+
 
