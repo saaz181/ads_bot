@@ -29,6 +29,9 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'name' == line[0].strip():
             name = line[1].strip()
 
+        if 'english-name' == line[0].strip():
+            english_name = line[1].strip()
+
         if 'phone' == line[0].strip():
             phone = line[1].strip()
 
@@ -70,6 +73,12 @@ with open('info.txt', 'r', encoding='utf-8') as info:
 
         if 'sellfree-password' in line[0]:
             sellfree_password = line[1].strip()
+
+        if 'zibashahr-username' == line[0].strip():
+            zibashahr_username = line[1].strip()
+
+        if 'zibashahr-password' == line[0].strip():
+            zibashahr_password = line[1].strip()
 
         if 'most-username' in line[0]:
             most_username = line[1].strip()
@@ -286,3 +295,71 @@ with open('info.txt', 'r', encoding='utf-8') as info:
 
         if 'agahe118-sub-group' == line[0].strip():
             agahe118_sub_group = line[1].strip()
+
+        if 'category-7010' in line[0]:
+            category_7010 = line[1].strip()
+
+        if 'group-7010' == line[0].strip():
+            group_7010 = line[1].strip()
+
+        if 'sub-group-7010' in line[0]:
+            sub_group_7010 = line[1].strip()
+
+        if 'rang7-group' == line[0].strip():
+            rang7_group = line[1].strip()
+
+        if 'rang7-sub-group' == line[0].strip():
+            rang7_sub_group = line[1].strip()
+
+        if 'silverbook-group' == line[0].strip():
+            silverbook_group = line[1].strip()
+
+        if 'silverbook-sub-group' == line[0].strip():
+            silverbook_sub_group = line[1].strip()
+
+        if 'silverbook-sub-sub-group' in line[0]:
+            silverbook_sub_sub_group = line[1].strip()
+
+        if 'zibashahr-group' == line[0].strip():
+            zibashahr_group = line[1].strip()
+
+        if 'adsfarsi-group' == line[0].strip():
+            adsfarsi_group = line[1].strip()
+
+        if 'adsfarsi-sub-group' in line[0]:
+            adsfarsi_sub_group = line[1].strip()
+
+        if 'aftabeh-group' == line[0].strip():
+            aftabeh_group = line[1].strip()
+
+        if 'agahi24-group' == line[0].strip():
+            agahi24_group = line[1].strip()
+
+        if 'agahi24-sub-group' == line[0].strip():
+            agahi24_sub_group = line[1].strip()
+
+        if 'agahi2agahi-group' == line[0].strip():
+            agahi2agahi_group = line[1].strip()
+
+        if 'agahi2agahi-sub-group' in line[0]:
+            agahi2agahi_sub_group = line[1].strip()
+
+        if 'agahi360-group' == line[0].strip():
+            agahi360_group = line[1].strip()
+
+        if 'agahi360-sub-group' == line[0].strip():
+            agahi360_sub_group = line[1].strip()
+
+        if 'abcagahi-group' == line[0].strip():
+            abcagahi_group = line[1].strip()
+
+        if 'abcagahi-sub-group' == line[0].strip():
+            abcagahi_sub_group = line[1].strip()
+
+        if 'jarzadani-group' == line[0].strip():
+            jarzadani_group = line[1].strip()
+
+        if 'jarzadani-sub-group' == line[0].strip():
+            jarzadani_sub_group = line[1].strip()
+
+

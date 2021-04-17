@@ -8,5 +8,5 @@ def close():
 
 close()
 
-input("\nPress any key to exit...")
+input("\nPress Enter to exit...")
 

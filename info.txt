@@ -1,5 +1,5 @@
-default_username = saliaz.mg326@gmail.com
-default_password = 0926218867
+default_username =
+default_password =
 
 ##### DIFFERENT USERNAME & PASSWORDS #####
 
@@ -15,6 +15,10 @@ WEBSITE: https://sellfree.ir/
 sellfree-username = 
 sellfree-password =
 
+WEBSITE: https://ads.zibashahr.com/user_login/
+zibashahr-username =
+zibashahr-password =
+
 WEBSITE: http://darsanat.ir/login_register.php, https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/, https://parstabligh.org/user_login/,
          http://newagahi.ir/login_register.php, https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
 
@@ -23,18 +27,19 @@ most-password = 0926218867
 
 ############################################
 
-title =  سیلبیلیبلبیلبیابالبالبا
-description =  ابلابلابلابلابالتلتالتانتانتمنتمتنمالبابلابلابلابلالبالالیبالتانمخکخمتوذدئرذدبایقلصصبسبییسبلبیلبیلیبلالاتفاغع6ع787هائد ذبل
+title =  سشکینتمبتیسباسینبیخحشس
+description = نسیب نمیسبمی نمسیب یسمنبنمی نیمسب ینمب نمب ینمب یمنب ینمب ینمیبنم یمبن تین یمبن یمنب یمنبن یمنبن یمنبنم یمنب
 short_description = بلالالبتلتالتاننهقفلسبیسربدالننا
 address =  بلالبالبالتتلثبیسبیلبیل
 province = خراسان رضوی
 city = مشهد
 name =  حسین
+english-name = Hossein
 phone =  09121233212
 home-phone = 05132213646
 
 #### بین کلمات کلیدی 2 تا فاصله<space> بذارید ####
-keywords = سیبیسب  بیسبسیبیسب  یسبسیبیسب  سیبیسببی
+keywords = سیبیسب  بیسبسیبیسب  یسبسیبیسب  سیبیسببی  بیبیبی  یبیبیب  یبیبیبی  یببییبیب  تتفتغ  نتلضق
 
 website-title =
 website_link =  https://example.com
@@ -92,15 +97,12 @@ ap_sub_group =  برنامه نویسی
 agahichi-group = کامپیوتر و اینترنت
 agahichi-sub-group = کامپیوتر
 
-
 ### http://shetabe.ir/
 shetab-group = مالی و اداری
 shetab-sub-group =  خدمات اداری
 shetab-sub-sub-group =  اعلام تصمیمات شرکتها
 
-
 ### http://www.tejaari.com/Advertisement/adnew
-
 tejjari-group = کامپیوتر و اینترنت
 tejjari-sub-group = کامپیوتر
 tejjari-sub-sub-group = خدمات کامپیوتر
@@ -110,12 +112,10 @@ tejjari-sub-sub-sub-group = نرم افزار
 xoonrang-group = لوازم الکترونیک
 xoonrang-sub-group = رایانه
 
-
 ### https://jarchi.me/newad/
 jarchi-group = لوازم الکترونیکی
 jarchi-sub-group = رایانه (کامپیوتر)
 jarchi-sub-sub-group = رایانه رومیزی
-
 
 ### https://100nama.com/user/submit-ad
 nama-group = خدمات
@@ -126,11 +126,9 @@ nama-sub-sub-group =  نرم افزار
 eshareh-group = لوازم الکترونیکی
 eshareh-sub-group =  گوشی موبایل
 
-
 ### https://www.2fanoos.com/new
 fanoos-group = خدمات و کسب و کار
 fanoos-sub-group = مراسم وکترینگ
-
 
 ### https://www.2mihan.com/login/
 mihan-group = خدمات
@@ -160,7 +158,6 @@ takniz-province = خراسان
 novin-tejarat-group = کشاورزی
 novin-tejarat-sub-group =  کشت و صنعت
 
-
 ### https://www.ptweb.ir/ads/addprop
 ptweb-group = پزشکی و درمانی
 ptweb-sub-group = آزمایشگاه و داروخانه
@@ -174,10 +171,11 @@ tablegh118-group = کامپیوتری
 tablegh118-sub-group = شبکه
 
 ### https://www.protabligh.com/ads/addprop, https://www.agahibartar.net/ads/addprop, https://www.myniazmandi.com/ads/addprop
-### https://www.mytabligh.net/ads/addprop, https://www.irantabligh.net/ads/addprop
+### https://www.mytabligh.net/ads/addprop, https://www.irantabligh.net/ads/addprop, https://www.niaziran.net/ads/addprop,
+### https://www.niaztehran.com/ads/addprop, https://www.tehranagahi.net/ads/addprop, https://www.tehrantabligh.net/ads/addprop
+
 protabligh-group = کامپیوتر و شبکه
 protabligh-sub-group = برنامه نویسی
-
 
 ### https://www.niazmandi-iran.com/ads/addprop
 niazmandi-iran-group = کامپیوتر
@@ -187,5 +185,46 @@ niazmandi-iran-sub-group = برنامه نویسی
 agahe118-group = معرفی وب ها
 agahe118-sub-group = ورزشی
 
+### https://www.7010.ir/add/
+category-7010 = کامپیوتر
+group-7010 = کامپیوتر
+sub-group-7010 = طراحی سایت
 
+### http://7rang.ir/newads
+rang7-group = رایانه و اینترنت
+rang7-sub-group = برنامه نویسی
 
+### https://silverbookco.com/adad
+silverbook-group = آموزشی
+silverbook-sub-group = خدمات آموزشی
+silverbook-sub-sub-group = معلم خصوصی
+
+### https://ads.zibashahr.com/create-listing/
+zibashahr-group = کامپیوتر
+
+### http://www.adsfarsi.com/
+adsfarsi-group = کامپیوتر
+adsfarsi-sub-group = برنامه نویسی
+
+### http://aftabe.com/
+aftabeh-group = سرگرمی و فراغت
+
+### https://www.agahi24.com/create-listing
+agahi24-group = کامپیوتر
+agahi24-sub-group = برنامه نویسی
+
+### http://agahi2agahi.com/0/advertisementpocketimage_new.html
+agahi2agahi-group = کامپیوتر
+agahi2agahi-sub-group = نرم افزار
+
+### http://www.agahi360.ir/new/
+agahi360-group = پزشکی و سلامت
+agahi360-sub-group = بیمارستان
+
+### http://www.abcagahi.ir/
+abcagahi-group = کامپیوتر
+abcagahi-sub-group = برنامه نویسی
+
+### https://www.jarzadani.ir/
+jarzadani-group = لوازم الکترونیک
+jarzadani-sub-group = صوتی و تصویری
