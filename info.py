@@ -362,4 +362,67 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'jarzadani-sub-group' == line[0].strip():
             jarzadani_sub_group = line[1].strip()
 
+        if 'jar24-group' == line[0].strip():
+            jar24_group = line[1].strip()
+
+        if 'jar24-sub-group' == line[0].strip():
+            jar24_sub_group = line[1].strip()
+
+        if 'dasar-group' == line[0].strip():
+            dasar_group = line[1].strip()
+
+        if 'dasar-sub-group' == line[0].strip():
+            dasar_sub_group = line[1].strip()
+
+        if 'publik-group' == line[0].strip():
+            publik_group = line[1].strip()
+
+        if 'publik-sub-group' == line[0].strip():
+            publik_sub_group = line[1].strip()
+
+        if 'hadafniaz-group' == line[0].strip():
+            hadafniaz_group = line[1].strip()
+
+        if 'hadafniaz-sub-group' == line[0].strip():
+            hadafniaz_sub_group = line[1].strip()
+
+        if 'peleha-group' == line[0].strip():
+            peleha_group = line[1].strip()
+
+        if 'peleha-sub-group' == line[0].strip():
+            peleha_sub_group = line[1].strip()
+
+        if 'pbazar-group' == line[0].strip():
+            pbazar_group = line[1].strip()
+
+        if 'pbazar-sub-group' == line[0].strip():
+            pbazar_sub_group = line[1].strip()
+
+        if 'pbazar-picture' == line[0].strip():
+            pbazar_picture = line[1].strip()
+
+        if 'pabi-group' == line[0].strip():
+            pabi_group = line[1].strip()
+
+        if 'pabi-sub-group' == line[0].strip():
+            pabi_sub_group = line[1].strip()
+
+        if 'taaj-group' == line[0].strip():
+            taaj_group = line[1].strip()
+
+        if 'taaj-sub-group' == line[0].strip():
+            taaj_sub_group = line[1].strip()
+
+        if 'agahidon-group' == line[0].strip():
+            agahidon_group = line[1].strip()
+
+        if 'agahidon-sub-group' == line[0].strip():
+            agahidon_sub_group = line[1].strip()
+
+        if 'agahiiran-group' == line[0].strip():
+            agahiiran_group = line[1].strip()
+
+        if 'agahiiran-sub-group' == line[0].strip():
+            agahiiran_sub_group = line[1].strip()
+
 

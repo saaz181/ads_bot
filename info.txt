@@ -22,8 +22,8 @@ zibashahr-password =
 WEBSITE: http://darsanat.ir/login_register.php, https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/, https://parstabligh.org/user_login/,
          http://newagahi.ir/login_register.php, https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
 
-most-username = saaz
-most-password = 0926218867
+most-username =
+most-password =
 
 ############################################
 
@@ -228,3 +228,45 @@ abcagahi-sub-group = برنامه نویسی
 ### https://www.jarzadani.ir/
 jarzadani-group = لوازم الکترونیک
 jarzadani-sub-group = صوتی و تصویری
+
+### http://jar24.ir/item/new
+jar24-group = کشاورزی و دامداری
+jar24-sub-group = فضای سبز
+
+### http://www.dasar.ir/fullmode/userpanel.html
+dasar-group = خدمات ساختمانی
+dasar-sub-group = برق و الکترونیک
+
+### http://publik.ir/add_estate.php
+publik-group = کامپیوتر و اینترنت
+publik-sub-group = برنامه نویسی
+
+### http://hadafniaz.ir/add_estate.php
+hadafniaz-group = کامپیوترو شبکه
+hadafniaz-sub-group = برنامه نویسی
+
+### http://www.karaads.ir/UserAdmin/AdvertiseNew.aspx
+peleha-group = ابزار آموزشی
+peleha-sub-group = آموزش کامپیوتر
+
+### https://pbazar.ir/post-ad/
+pbazar-group = خدمات
+pbazar-sub-group = پزشکی و سلامت و زیبایی
+### حداقل 760 در 410 ###
+pbazar-picture = C:\Users\Sabalan\Pictures\img.jpg
+
+### http://pabi.ir/newads
+pabi-group = خدمات
+pabi-sub-group = صادرات و واردات
+
+### https://www.taaj.ir/?action=user&do=add
+taaj-group = آموزش
+taaj-sub-group = آموزش نرم افزار های مهندسی
+
+### http://agahidon.ir/item/new
+agahidon-group = کامپیوتر
+agahidon-sub-group = برنامه نویسی
+
+### http://agahiiran.ir/new
+agahiiran-group = خدمات
+agahiiran-sub-group = خدمات فرهنگی و هنری
