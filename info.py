@@ -425,4 +425,45 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'agahiiran-sub-group' == line[0].strip():
             agahiiran_sub_group = line[1].strip()
 
+        if 'agahiiran-sub-sub-group' == line[0].strip():
+            agahiiran_sub_sub_group = line[1].strip()
+
+        if 'agahi-kala-group' == line[0].strip():
+            agahi_kala_group = line[1].strip()
+
+        if 'agahi-kala-sub-group' == line[0].strip():
+            agahi_kala_sub_group = line[1].strip()
+
+        if 'agahimax-group' == line[0].strip():
+            agahimax_group = line[1].strip()
+
+        if 'agahimax-sub-group' == line[0].strip():
+            agahimax_sub_group = line[1].strip()
+
+        if 'agahimax-sub-sub-group' == line[0].strip():
+            agahimax_sub_sub_group = line[1].strip()
+
+        if 'asreesfahan-group' == line[0].strip():
+            asreesfahan_group = line[1].strip()
+
+        if 'asreesfahan-sub-group' == line[0].strip():
+            asreesfahan_sub_group = line[1].strip()
+
+        if 'bazarche96-group' == line[0].strip():
+            bazarche96_group = line[1].strip()
+
+        if 'bazarche96-sub-group' == line[0].strip():
+            bazarche96_sub_group = line[1].strip()
+
+        if 'bazarche96-sub-sub-group' == line[0].strip():
+            bazarche96_sub_sub_group = line[1].strip()
+
+        if 'bazarha-group' == line[0].strip():
+            bazarha_group = line[1].strip()
+
+        if 'bazarha-sub-group' == line[0].strip():
+            bazarha_sub_group = line[1].strip()
+
+        if 'bazarha-sub-sub-group' == line[0].strip():
+            bazarha_sub_sub_group = line[1].strip()
 
