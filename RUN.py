@@ -36,6 +36,52 @@ posts = [
     [PostAd31, links[30]],
     # PostAd32 in RUN_CAPTCHA
     [PostAd34, links[33]],
+    [PostAd35, links[34]],
+    # PostAd37 in RUN_CAPTCHA
+    [PostAd38, links[37]],
+    [PostAd40, links[39]],
+    [PostAd41, links[40]],
+    [PostAd42, links[41]],
+    [PostAd43, links[42]],
+    [PostAd44, links[43]],
+    [PostAd45, links[44]],
+    [PostAd46, links[45]],
+    [PostAd47, links[46]],
+    [PostAd48, links[47]],
+    [PostAd49, links[48]],
+    [PostAd50, links[49]],
+    [PostAd51, links[50]],
+    [PostAd52, links[51]],
+    [PostAd53, links[52]],
+    [PostAd54, links[53]],
+    [PostAd55, links[54]],
+    [PostAd56, links[55]],
+    [PostAd57, links[56]],
+    [PostAd58, links[57]],
+    [PostAd59, links[58]],
+    [PostAd60, links[59]],
+    [PostAd63, links[62]],
+    [PostAd64, links[63]],
+    [PostAd65, links[64]],
+    [PostAd66, links[65]],
+    [PostAd70, links[69]],
+    [PostAd71, links[70]],
+    [PostAd75, links[74]],
+    [PostAd76, links[75]],
+    [PostAd77, links[76]],
+    [PostAd78, links[77]],
+    [PostAd80, links[79]],
+    [PostAd83, links[82]],
+    [PostAd85, links[84]],
+    [PostAd86, links[85]],
+    [PostAd87, links[86]],
+    [PostAd88, links[87]],
+    [PostAd91, links[90]],
+    [PostAd93, links[92]],
+    [PostAd94, links[93]],
+    [PostAd97, links[96]],
+    [PostAd99, links[98]],
+    [PostAd100, links[99]],
 ]
 
 different_user_pass_posts = [
@@ -47,6 +93,15 @@ different_user_pass_posts = [
     [PostAd22, most_username, most_password, links[21]],
     [PostAd27, sellfree_username, sellfree_password, links[26]],
     [PostAd33, most_username, most_password, links[32]],
+    [PostAd36, most_username, most_password, links[35]],
+    [PostAd61, most_username, most_password, links[60]],
+    [PostAd62, zibashahr_username, zibashahr_password, links[61]],
+    [PostAd68, most_username, most_password, links[67]],
+    [PostAd69, most_username, most_password, links[68]],
+    [PostAd72, most_username, most_password, links[71]],
+    [PostAd73, most_username, most_password, links[72]],
+    [PostAd92, most_username, most_password, links[91]],
+
 ]
 
 
@@ -57,8 +112,10 @@ for post in posts:
         ad = post[0](_url_, _username_, _password_)
         sleep(2)
         ad.close()
+
     except NoSuchWindowException:
         pass
+
     except Exception as error:
         print(error)
         logging.error(f"Failed at {post[1]}")
@@ -71,6 +128,7 @@ for post in different_user_pass_posts:
         ad = post[0](_url_, post[1], post[2])
         sleep(2)
         ad.close()
+
     except Exception as error:
         print(error)
         logging.error(f"Failed at {post[3]}")

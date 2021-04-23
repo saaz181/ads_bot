@@ -1,5 +1,5 @@
-default_username =
-default_password =
+default_username = saliaz.mg326@gmail.com
+default_password = 0926218867
 
 ##### DIFFERENT USERNAME & PASSWORDS #####
 
@@ -8,22 +8,22 @@ WEBSITE: https://71ap.ir/login/
 71ap-password =
 
 WEBSITE: https://my.niazerooz.com/membership  این سایتش امروز خراب شده برای من بالا نمیاد
-niazerooz-username =
-niazerooz-password =
+niazerooz-username = 09156455409
+niazerooz-password = 467253
 
 WEBSITE: https://sellfree.ir/
 sellfree-username = 
 sellfree-password =
 
 WEBSITE: https://ads.zibashahr.com/user_login/
-zibashahr-username =
-zibashahr-password =
+zibashahr-username = saaz
+zibashahr-password = oFZIkrVUdRL5
 
 WEBSITE: http://darsanat.ir/login_register.php, https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/, https://parstabligh.org/user_login/,
          http://newagahi.ir/login_register.php, https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
 
-most-username =
-most-password =
+most-username = saaz
+most-password = 0926218867
 
 ############################################
 
