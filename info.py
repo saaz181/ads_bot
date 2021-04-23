@@ -527,4 +527,29 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'nabzeroz-sub-group' == line[0].strip():
             nabzeroz_sub_group = line[1].strip()
 
+        if 'hogre-group' == line[0].strip():
+            hogre_group = line[1].strip()
 
+        if 'hogre-sub-group' == line[0].strip():
+            hogre_sub_group = line[1].strip()
+
+        if 'hogre-sub-sub-group' == line[0].strip():
+            hogre_sub_sub_group = line[1].strip()
+
+        if 'radtabligh-group' == line[0].strip():
+            radtabligh_group = line[1].strip()
+
+        if 'radtabligh-sub-group' == line[0].strip():
+            radtabligh_sub_group = line[1].strip()
+
+        if 'aghayeagahi-group' == line[0].strip():
+            aghayeagahi_group = line[1].strip()
+
+        if 'jaraghe-group' == line[0].strip():
+            jaraghe_group = line[1].strip()
+
+        if 'jaraghe-sub-group' == line[0].strip():
+            jaraghe_sub_group = line[1].strip()
+
+        if 'jaraghe-sub-sub-group' == line[0].strip():
+            jaraghe_sub_sub_group = line[1].strip()

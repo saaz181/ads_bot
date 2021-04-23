@@ -46,7 +46,7 @@ links = [
     'https://sellfree.ir/?d=login', 'https://googleagahi.com/auth', 'https://www.netmoj.ir/',
     'https://payameavval.net/login.aspx', 'http://xoonarg.com/', 'https://agahiaria.ir/auth',
     'http://darsanat.ir/login_register.php', 'https://jarchi.me/my-account/', 'https://100nama.com/sign-in',
-    'https://www.1eshareh.com/login.aspx?ReturnUrl=%2f', 'https://www.2fanoos.com/auth',
+    'https://niazmandyha.ir/login', 'https://www.2fanoos.com/auth',
     'https://www.2mihan.com/login/', 'https://3030l.net/auth', 'https://www.3ervice.com/%d9%88%d8%b1%d9%88%d8%af/',
     'https://www.rahnama118.com/framework/user/login', 'https://www.takniaz.com/framework/user/login',
     'https://www.novin-tejarat.com/framework/user/login', 'https://www.ptweb.ir/framework/user/login',
@@ -72,6 +72,8 @@ links = [
     'https://www.niazmandiha.net/login/',
     'https://noonerooz.com/%d9%88%d8%b1%d9%88%d8%af-%d8%a8%d9%87-%d8%ad%d8%b3%d8%a7%d8%a8'
     '-%da%a9%d8%a7%d8%b1%d8%a8%d8%b1%db%8c/', 'https://iranamir.com/ads/auth', 'http://nabzeroz.ir/auth',
+    'https://www.hogre.ir/login', 'http://www.radtabligh.com/fa/index.asp?p=Login&m=Client',
+    'http://aghayeagahi.ir/', 'https://jaraghe.net/my-account/',
 
 ]
 
@@ -1686,7 +1688,13 @@ class PostAd17(IPostAds):
         # email
         self.driver.find_element_by_xpath('//*[@id="Email"]').send_keys(email)
 
-        # picture TODO: make picture input
+        # picture
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/form/div/div[20]/div[2]').click()
+        sleep(2)
+        pyautogui.write(f'{picture}')
+        sleep(1)
+        pyautogui.press('enter')
+        sleep(2)
 
         # submit
         self.driver.find_element_by_xpath('//*[@id="btnSaveAdv"]').click()
@@ -2769,6 +2777,7 @@ class PostAd28(IPostAds):
 
     def post(self):
         self.driver.get('https://googleagahi.com/new')
+        self.driver.maximize_window()
 
         # title
         self.driver.find_element_by_xpath('//*[@id="frm_title"]').send_keys(title)
@@ -2821,10 +2830,8 @@ class PostAd28(IPostAds):
             pass
 
         # picture
-        try:
-            self.driver.find_element_by_xpath('/html/body/div[10]/input').send_keys(picture)
-        except NoSuchElementException:
-            pass
+        self.driver.find_element_by_xpath('/html/body/div[10]/input').send_keys(picture)
+        sleep(5)
 
         # ads type
         self.driver.find_element_by_xpath('//*[@id="select2-frm_plan_type-container"]').click()
@@ -2839,7 +2846,7 @@ class PostAd28(IPostAds):
         self.driver.find_element_by_xpath('/html/body/section/div/div/div/form/div[1]/div/div/'
                                           'div/div[10]/div/span[2]/span[1]/span/span[1]').click()
         prefix = '/html/body/span/span/span[2]/ul/li['
-        self.search(province, prefix, ']', element=2)
+        self._search_(province, prefix, ']', element=2)
         sleep(2)
 
         # city
@@ -2859,18 +2866,11 @@ class PostAd28(IPostAds):
                                           'div/div[15]/div/span/span[1]/span/ul/li/input').send_keys(
             keywords.replace('  ', '\n'))
 
-        # picture  TODO: make this functional
-        try:
-            self.driver.find_element_by_css_selector('body > div:nth-child(34) > input:nth-child(1)').send_keys(picture)
-        except NoSuchElementException:
-            pass
-
-        except ElementNotInteractableException:
-            pass
+        # scroll down
+        self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight / 2);')
+        sleep(1)
 
         # submit button
-        self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
-        sleep(2)
         self.driver.find_element_by_xpath('/html/body/section/div/div/div/form/button').click()
 
 
@@ -3534,7 +3534,13 @@ class PostAd35(IPostAds):
         self.search(city, prefix, ']')
 
         # picture
-        # TODO: make the picture field
+        self.driver.find_element_by_xpath('/html/body/section/form/div[1]/div/div/div[1]/div[2]/div/div[2]/'
+                                          'div[1]/div/div[2]/button').click()
+        sleep(2)
+        pyautogui.write(f'{picture}')
+        sleep(1)
+        pyautogui.press('enter')
+        sleep(2)
 
         # price
         self.driver.find_element_by_xpath('//*[@id="price"]').send_keys(price)
@@ -3549,94 +3555,78 @@ class PostAd35(IPostAds):
         self.driver.find_element_by_xpath('/html/body/section/form/div[2]/div/div/div/div[2]/button').click()
 
 
-# TODO: Make the group, sub-group, picture field functional
 class PostAd36(IPostAds):
-    """ https://www.1eshareh.com/login.aspx?ReturnUrl=%2f """
+    """ https://niazmandyha.ir/login """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
     def login(self):
-
         # Enter username
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_Login1_UserName"]')\
-            .send_keys(self.username)
+        self.driver.find_element_by_xpath('//*[@id="username"]').send_keys(self.username)
 
         # Enter password
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_Login1_Password"]')\
-            .send_keys(self.password)
+        self.driver.find_element_by_xpath('//*[@id="password"]').send_keys(self.password)
 
         # login button
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_Login1_LoginButton"]').click()
+        self.driver.find_element_by_xpath('/html/body/main/div/div/div[2]/div[2]/div/form/fieldset/div[4]/div/'
+                                          'button').click()
         sleep(2)
         self.post()
 
     def post(self):
-        self.driver.get('https://www.1eshareh.com/AddNotice.aspx')
+        self.driver.get('https://niazmandyha.ir/newAd')
 
         # title
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_txtTitle"]').send_keys(title)
+        self.driver.find_element_by_xpath('//*[@id="title"]').send_keys(title)
 
         # group
-        select_group = Select(self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_cboCat"]'))
-        select_group.select_by_visible_text(eshareh_group)
-
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_cboCat"]').click()
-        prefix = '/html/body/div/form/div[3]/div[2]/div/div/div[1]/div/div/div[3]/div/div[1]/div[2]/div[1]/div[4]/' \
-                 'div[3]/div[1]/div/div[1]/div/select/option['
-        self.search(eshareh_group, prefix, ']', element=2)
-
+        prefix = '/html/body/main/div/div[2]/div/div/div/form/div[3]/select/option['
+        self.search(agahimax_group, prefix, ']', element=2)
         sleep(2)
 
-        # sub group
-        select_sub_group = Select(self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_cbosubCat"]'))
-        select_sub_group.select_by_visible_text(eshareh_sub_group)
+        # price
+        self.driver.find_element_by_xpath('//*[@id="cost"]').send_keys(price)
 
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_cbosubCat"]').click()
-        prefix = '/html/body/div/form/div[3]/div[2]/div/div/div[1]/div/div/div[3]/div/div[1]/div[2]/div[1]/div[4]/' \
-                 'div[3]/div[2]/div/div[1]/div/select/option['
-        self.search(eshareh_sub_group, prefix, ']', element=2)
-
-        sleep(2)
-
-        # period of ad
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_cboNoticeTime"]').click()
-        self.driver.find_element_by_xpath('/html/body/div/form/div[3]/div[2]/div/div/div[1]/div/div/div[3]/div/div[1]/'
-                                          'div[2]/div[1]/div[4]/div[5]/div[1]/div/div/div/select/option[2]').click()
+        # description
+        iframe = self.driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div/div/form/div[5]/div/'
+                                                   'div/div/iframe')
+        self.driver.switch_to.frame(iframe)
+        self.driver.find_element_by_xpath('/html/body/p').send_keys(description)
+        sleep(1)
+        self.driver.switch_to.default_content()
 
         # province
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_CboLocation"]').click()
-        prefix = '/html/body/div/form/div[3]/div[2]/div/div/div[1]/div/div/div[3]/div/div[1]/div[2]/div[1]/' \
-                 'div[4]/div[6]/div[1]/div/div/div/select/option['
-        self.search(province, prefix, ']', element=2)
+        prefix = '/html/body/main/div/div[2]/div/div/div/form/div[8]/select/option['
+        self._search_(province, prefix, ']', element=2)
         sleep(2)
 
         # city
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_cboSubLoc"]').click()
-        prefix = '/html/body/div/form/div[3]/div[2]/div/div/div[1]/div/div/div[3]/div/div[1]/div[2]/div[1]/div[4]/' \
-                 'div[6]/div[2]/div/div/div/select/option['
+        prefix = '/html/body/main/div/div[2]/div/div/div/form/div[9]/select/option['
         self.search(city, prefix, ']', element=2)
-        sleep(2)
-
-        # description
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_txtCkEditor"]').send_keys(description)
-
-        # phone
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_txtPhone"]').send_keys(phone)
 
         # address
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_txtAddress"]').send_keys(address)
+        self.driver.find_element_by_xpath('//*[@id="address"]').send_keys(address)
 
-        # price
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_rdbPrice"]').click()
-        sleep(1)
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_txtPrice"]').send_keys(price)
+        # keywords
+        self.driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div/div/form/div[13]/div/input').send_keys(
+            keywords.replace('  ', '\n'))
 
         # picture
-
-        # submit button
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_chkRole"]').click()
+        self.driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div/div/form/div[16]/label').click()
+        sleep(2)
+        pyautogui.write(f'{picture}')
         sleep(1)
-        self.driver.find_element_by_xpath('//*[@id="ctl00_ContentPlaceHolder1_btnSave"]').click()
+        pyautogui.press('enter')
+        sleep(2)
+        
+        # first submit button
+        self.driver.find_element_by_xpath('/html/body/main/div/div[2]/div/div/div/form/div[18]/button').click()
+        sleep(5)
+
+        # final submit button
+        self.driver.find_element_by_xpath('//*[@id="continueBtn"]').click()
+        sleep(2)
+        pyautogui.press('enter')
 
 
 class PostAd37(IPostAds):
@@ -4845,9 +4835,9 @@ class PostAd63(IPostAds):
         self.driver.find_element_by_xpath('/html/body/form/div[4]/div[2]/center/div[5]/div/div[1]/table/tbody/'
                                           'tr[16]/td[2]/select/option[3]').click()
 
-        # picture TODO: fix picture field
-        self.driver.find_element_by_xpath('//*[@id="ctl00_Content_FileUploadPic"]').send_keys(r'{}'.format(picture))
-        sleep(3)
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="ctl00_Content_FileUploadPic"]').send_keys(picture)
+        sleep(1)
 
         # submit button
         self.driver.find_element_by_xpath('//*[@id="ctl00_Content_ibtn_Reg"]').click()
@@ -5158,7 +5148,9 @@ class PostAd67(IPostAds):
         sleep(1)
 
         # CAPTCHA delay
-        sleep(12)
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div[2]/div[2]/div/div[2]/form/'
+                                          'table/tbody/tr[3]/td[2]/input').click()
+        sleep(13)
 
         # login button
         self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div[2]/div[2]/div/div[2]/form/table/tbody/'
@@ -5203,9 +5195,14 @@ class PostAd67(IPostAds):
         self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div[4]/form/div[2]/div[1]/div[2]/table/tbody/'
                                           'tr/td[2]/input').send_keys(price)
 
-        # picture TODO: fix picture field
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div[4]/form/div[2]/div[2]/'
-                                          'div[2]/div[2]/input').send_keys(picture)
+        # picture
+        img = cv2.imread(picture)
+        img = cv2.resize(img, (256, 256), fx=1, fy=1)
+        cv2.imwrite('resized_image.jpg', img)
+
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[4]/div[4]/form/div[2]/div[2]/div[2]/'
+                                          'div[2]/input').send_keys(os.getcwd() + '\\resized_image.jpg')
+        sleep(2)
 
         # keywords
         keyword = keywords.split('  ')
@@ -7325,19 +7322,326 @@ class PostAd96(PostAd81):
 
 
 class PostAd97(IPostAds):
-    """  """
+    """ https://www.hogre.ir/login """
     def __init__(self, url, username, password):
         super().__init__(url, username, password)
 
     def login(self):
         # Enter username
+        self.driver.find_element_by_xpath('//*[@id="email"]').send_keys(self.username)
+        
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="password"]').send_keys(self.password)
+        
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div/main/div/div/div/div[2]/form/div[4]/button').click()
+        sleep(2)
+        self.post()
+
+    def post(self):
+        self.driver.get('https://www.hogre.ir/panel/ads/create')
+
+        # title
+        self.driver.find_element_by_xpath('/html/body/div/main/div/div/div/div[2]/form/div[1]/div/'
+                                          'input').send_keys(title)
+
+        # short_description
+        self.driver.find_element_by_xpath('/html/body/div/main/div/div/div/div[2]/form/div[2]/div/'
+                                          'textarea').send_keys(short_description)
+        
+        # description
+        self.driver.find_element_by_xpath('/html/body/div/main/div/div/div/div[2]/form/div[3]/div/'
+                                          'textarea').send_keys(description)
+
+        # province
+        self.driver.find_element_by_xpath('//*[@id="select2-state-container"]').click()
+        sleep(2)
+        prefix = '/html/body/span/span/span[2]/ul/li['
+        self._search_(province, prefix, ']', element=2)
+        sleep(2)
+
+        # city
+        prefix = '/html/body/div/main/div/div/div/div[2]/form/div[5]/div/select/option['
+        self.search(city, prefix, ']', element=2)
+        sleep(1)
+
+        # group
+        self.driver.find_element_by_xpath('//*[@id="select2-category-container"]').click()
+        prefix = '/html/body/span/span/span[2]/ul/li['
+        self.search(hogre_group, prefix, ']')
+        sleep(2)
+        
+        # sub-group
+        self.driver.find_element_by_xpath('//*[@id="select2-category2-container"]').click()
+        prefix = '/html/body/span/span/span[2]/ul/li['
+        self.search(hogre_sub_group, prefix, ']')
+        sleep(2)
+
+        # sub sub-group
+        if hogre_sub_sub_group:
+            self.driver.find_element_by_xpath('//*[@id="select2-category3-container"]').click()
+            prefix = '/html/body/span/span/span[2]/ul/li['
+            self.search(hogre_sub_sub_group, prefix, ']')
+            sleep(2)
+
+        # phone
+        self.driver.find_element_by_xpath('/html/body/div/main/div/div/div/div[2]/form/div[9]/div/'
+                                          'input').send_keys(phone)
+
+        # picture
+        self.driver.find_element_by_xpath('/html/body/div/main/div/div/div/div[2]/form/div[12]/label/span').click()
+        sleep(2)
+        pyautogui.write(f'{picture}')
+        sleep(1)
+        pyautogui.press('enter')
+        sleep(2)
+
+        # submit button
+        self.driver.find_element_by_xpath('/html/body/div/main/div/div/div/div[2]/form/div[13]/button').click()
+
+
+class PostAd98(IPostAds):
+    """ http://www.radtabligh.com/fa/index.asp?p=Login&m=Client *** captcha *** """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="login-box-user"]').send_keys(self.username)
+        sleep(1)
 
         # Enter password
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/fieldset/div[4]/div[2]/'
+                                          'form/input[2]').send_keys(self.password)
+
+        # CAPTCHA delay
+        try:
+            self.driver.find_element_by_xpath('//*[@id="securityCode"]').click()
+            sleep(13)
+        except NoSuchElementException:
+            pass
 
         # login button
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/fieldset/div[4]/div[2]/'
+                                          'form/input[4]').click()
+        
+        self.post()
+
+    def post(self):
+        self.driver.get('http://www.radtabligh.com/newads/12809')
+
+        # group
+        prefix = '/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/table/tbody/tr[1]/td[2]/' \
+                 'select/option['
+        self.search(radtabligh_group, prefix, ']', element=2)
+        sleep(4)
+
+        # sub-group
+        prefix = '/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/table/tbody/tr[2]/td[2]/p/' \
+                 'select/option['
+        self.search(radtabligh_sub_group, prefix, ']')
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="txtTitle"]').send_keys(title)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="text"]').send_keys(description)
+
+        # picture
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/'
+                                          'table/tbody/tr[5]/td[2]/p/img').click()
+        sleep(2)
+        pyautogui.write(f'{picture}')
+        sleep(1)
+        pyautogui.press('enter')
+        sleep(2)
+
+        # name
+        self.driver.find_element_by_xpath('//*[@id="txtUsername"]').send_keys(name)
+
+        # phone
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/'
+                                          'form/table/tbody/tr[6]/td[2]/input[2]').send_keys(phone)
+
+        # price
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/'
+                                          'table/tbody/tr[7]/td[2]/input[2]').send_keys(price)
+
+        # address
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/'
+                                          'table/tbody/tr[8]/td[2]/input').send_keys(address)
+
+        # website_link
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/'
+                                          'table/tbody/tr[9]/td[2]/input').send_keys(website_link)
+
+        # keywords
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/'
+                                          'form/table/tbody/tr[11]/td[2]/textarea').send_keys(
+            keywords.replace('  ', ','))
+
+        # province
+        prefix = '/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/table/tbody/tr[12]/td[2]/' \
+                 'select[2]/option['
+        self._search_(province, prefix, ']', element=2)
+
+        # submit button
+        self.driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div/div/div[2]/fieldset[1]/div/form/'
+                                          'table/tbody/tr[14]/td[2]/button').click()
+
+
+class PostAd99(IPostAds):
+    """ http://aghayeagahi.ir/ """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        self.driver.find_element_by_xpath('/html/body/section/nav/div/div/div/div/ul[2]/li[1]/a').click()
+        sleep(3)
+
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="log_email"]').send_keys(self.username)
+
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="log_password"]').send_keys(self.password)
+        
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div[9]/div/div/div[2]/div[1]/div/div[5]/form/button').click()
+        sleep(4)
+        self.post()
+
+    def post(self):
+        self.driver.get('http://aghayeagahi.ir/submit-ads/')
+        sleep(2)
+        self.driver.get('http://aghayeagahi.ir/submit-ads/')
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="listing_title"]').send_keys(title)
+
+        # group
+        prefix = '/html/body/section[3]/div/div/div/form/div[2]/div[1]/div[2]/div/select/option['
+        self.search(aghayeagahi_group, prefix, ']', element=2)
+
+        # phone
+        self.driver.find_element_by_xpath('/html/body/section[3]/div/div/div/form/div[2]/div[4]/div/div/'
+                                          'div[1]/input').send_keys(phone)
+
+        # description
+        self.driver.find_element_by_xpath('/html/body/section[3]/div/div/div/form/div[4]/div/div[1]/div/'
+                                          'div[1]/div[3]').send_keys(description)
+
+        # email
+        self.driver.find_element_by_xpath('/html/body/section[3]/div/div/div/form/div[4]/div/div[2]/div/'
+                                          'div[1]/input').send_keys(email)
+
+        # keywords
+        try:
+            self.driver.find_element_by_xpath('/html/body/section[3]/div/div/div/form/div[4]/div/'
+                                              'div[3]/div/ul/li[2]').send_keys(keywords.replace('  ', ','))
+        except ElementNotInteractableException:
+            pass
+
+        # picture
+        self.driver.find_element_by_xpath('/html/body/section[3]/div/div/div/form/div[4]/div/div[4]/'
+                                          'div[1]/div/div').click()
+        sleep(2)
+        pyautogui.write(f'{picture}')
+        sleep(1)
+        pyautogui.press('enter')
+        sleep(2)
+
+        # address
+        self.driver.find_element_by_xpath('//*[@id="address_location"]').send_keys(address)
+
+        # country
+        self.driver.find_element_by_xpath('/html/body/section[3]/div/div/div/form/div[5]/div/div[5]/div/'
+                                          'select/option[2]').click()
+        sleep(5)
+
+        # province
+        prefix = '/html/body/section[3]/div/div/div/form/div[5]/div/div[6]/div/select/option['
+        self._search_(province, prefix, ']', element=2)
+        sleep(5)
+
+        # city
+        prefix = '/html/body/section[3]/div/div/div/form/div[5]/div/div[7]/div/select/option['
+        self.search(city, prefix, ']', element=2)
+        sleep(5)
+
+        # submit button
+        self.driver.find_element_by_xpath('/html/body/section[3]/div/div/div/form/div[5]/div/div[9]/'
+                                          'div/button').click()
+
+
+class PostAd100(IPostAds):
+    """ https://jaraghe.net/my-account/ """
+    def __init__(self, url, username, password):
+        super().__init__(url, username, password)
+
+    def login(self):
+        # Enter username
+        self.driver.find_element_by_xpath('//*[@id="username"]').send_keys(self.username)
+        
+        # Enter password
+        self.driver.find_element_by_xpath('//*[@id="password"]').send_keys(self.password)
+        
+        # login button
+        self.driver.find_element_by_xpath('/html/body/div/main/section/div/div/div/article/div/div[2]/div[1]/form/'
+                                          'p[3]/button').click()
 
         self.post()
 
     def post(self):
-        pass
+        self.driver.get('https://jaraghe.net/newad/')
+
+        # group
+        prefix = '/html/body/div/main/section/div/div/div/article/section/div/form/div[1]/div/div[2]/a['
+        self.search(jaraghe_group, prefix, ']')
+        sleep(7)
+        
+        # sub-group
+        prefix = '/html/body/div/main/section/div/div/div/article/section/div/form/div[1]/div/div[2]/a['
+        self.search(jaraghe_sub_group, prefix, ']')
+        sleep(7)
+
+        # sub sub-group
+        if jaraghe_sub_sub_group:
+            prefix = '/html/body/div/main/section/div/div/div/article/section/div/form/div[1]/div/div[2]/a['
+            self.search(jaraghe_sub_sub_group, prefix, ']')
+            sleep(6)
+
+        # title
+        self.driver.find_element_by_xpath('//*[@id="title"]').send_keys(title)
+        
+        # price
+        self.driver.find_element_by_xpath('//*[@id="price_show"]').send_keys(price)
+
+        # description
+        self.driver.find_element_by_xpath('//*[@id="details"]').send_keys(description)
+
+        # city
+        self.driver.find_element_by_xpath('/html/body/div/main/section/div/div/div/article/section/div/form/div[2]/'
+                                          'div[2]/section[2]/div/div[2]/div/div/button').click()
+        prefix = '/html/body/div/main/section/div/div/div/article/section/div/form/div[2]/div[2]/section[2]/div/' \
+                 'div[2]/div/div/div/div[2]/ul/li['
+        self.search(city, prefix, ']/a/span')
+        sleep(4)
+
+        # picture
+        self.driver.find_element_by_xpath('//*[@id="charsoogh-file-upload"]').click()
+        sleep(2)
+        pyautogui.write(f'{picture}')
+        sleep(1)
+        pyautogui.press('enter')
+        sleep(2)
+
+        # first submit button
+        self.driver.find_element_by_xpath('/html/body/div/main/section/div/div/div/article/section/div/form/'
+                                          'div[2]/div[2]/button[1]').click()
+        sleep(7)
+
+        # final submit button
+        self.driver.find_element_by_xpath('/html/body/div/main/section/div/div/div/article/section/div/'
+                                          'div[2]/div/button[1]').click()
+
 

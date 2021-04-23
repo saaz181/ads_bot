@@ -333,3 +333,19 @@ noonerooz-sub-group = ویزا و پاسپورت
 nabzeroz-group = کامپیوتر
 nabzeroz-sub-group = برنامه نویسی
 
+### https://www.hogre.ir/panel/ads/create
+hogre-group = آموزش
+hogre-sub-group = آموزش هنر
+hogre-sub-sub-group = اموزش صنایع دستی
+
+### http://www.radtabligh.com/newads/12809
+radtabligh-group = کامپیوتر
+radtabligh-sub-group = برنامه نویسی
+
+### http://aghayeagahi.ir/submit-ads/
+aghayeagahi-group = آموزش
+
+### https://jaraghe.net/newad/
+jaraghe-group = لوازم الکترونیکی
+jaraghe-sub-group = موبایل و تبلت
+jaraghe-sub-sub-group = موبایل
