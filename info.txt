@@ -276,7 +276,7 @@ agahiiran-sub-sub-group =
 agahi-kala-group = خدمات
 agahi-kala-sub-group = خدمات رایانه ای و موبایل
 
-### https://agahimax.com/new
+### https://agahimax.com/new, http://inokala.ir/new, https://khafanbazar.ir/new, https://iranamir.com/ads/auth
 agahimax-group = سرگرمی و فراغت
 agahimax-sub-group = آلات موسیقی
 agahimax-sub-sub-group = سنتی
@@ -295,5 +295,41 @@ bazarha-group = لوازم الکترونیکی
 bazarha-sub-group = رایانه
 bazarha-sub-sub-group = قطعات و لوازم جانبی
 
+### https://bazarmajazi.com/%d8%a7%db%8c%d8%ac%d8%a7%d8%af-%d8%a2%da%af%d9%87%db%8c/
+bazarmajazi-group = صنعت دام و طیور
+bazarmajazi-sub-group = خدمات و تجهیزات دامداری
+bazarmajazi-sub-sub-group = شیردوش دام
 
+### https://dararsh.com/newads
+dararsh-group = کامپیوتر
+dararsh-sub-group = برنامه نویسی
+
+### https://fastniaz.com/add-ads.html
+fastniaz-group = کامپیوتر و موبایل
+fastniaz-sub-group = لپ تاپ
+
+### http://inagahi.com/newads
+inagahi-group = کامپیوتر
+inagahi-sub-group = پروژه های دانشگاهی
+
+### http://www.niazmandia.ir/panel/add-ads
+niazmandia-group = کامپیوتر
+niazmandia-sub-group = خریدار کامپیوتر
+niazmandia-province = خراسان
+
+### http://tabliqplus.ir/add_estate.php
+tabliqplus-group = اینترنت و موبایل
+tabliqplus-sub-group = طراحی سایت
+
+### https://www.niazmandiha.net/?action=user&do=add
+niazmandiha-net-group = کامپیوتر
+niazmandiha-net-sub-group = برنامه نویسی
+
+### https://noonerooz.com/newad/
+noonerooz-group = مسافرتی
+noonerooz-sub-group = ویزا و پاسپورت
+
+### http://nabzeroz.ir/new
+nabzeroz-group = کامپیوتر
+nabzeroz-sub-group = برنامه نویسی
 

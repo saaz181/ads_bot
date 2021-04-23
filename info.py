@@ -467,3 +467,64 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'bazarha-sub-sub-group' == line[0].strip():
             bazarha_sub_sub_group = line[1].strip()
 
+        if 'bazarmajazi-group' == line[0].strip():
+            bazarmajazi_group = line[1].strip()
+
+        if 'bazarmajazi-sub-group' == line[0].strip():
+            bazarmajazi_sub_group = line[1].strip()
+
+        if 'bazarmajazi-sub-sub-group' == line[0].strip():
+            bazarmajazi_sub_sub_group = line[1].strip()
+
+        if 'dararsh-group' == line[0].strip():
+            dararsh_group = line[1].strip()
+
+        if 'dararsh-sub-group' == line[0].strip():
+            dararsh_sub_group = line[1].strip()
+
+        if 'fastniaz-group' == line[0].strip():
+            fastniaz_group = line[1].strip()
+
+        if 'fastniaz-sub-group' == line[0].strip():
+            fastniaz_sub_group = line[1].strip()
+
+        if 'inagahi-group' == line[0].strip():
+            inagahi_group = line[1].strip()
+
+        if 'inagahi-sub-group' == line[0].strip():
+            inagahi_sub_group = line[1].strip()
+
+        if 'niazmandia-group' == line[0].strip():
+            niazmandia_group = line[1].strip()
+
+        if 'niazmandia-sub-group' == line[0].strip():
+            niazmandia_sub_group = line[1].strip()
+
+        if 'niazmandia-province' == line[0].strip():
+            niazmandia_province = line[1].strip()
+
+        if 'tabliqplus-group' == line[0].strip():
+            tabliqplus_group = line[1].strip()
+
+        if 'tabliqplus-sub-group' == line[0].strip():
+            tabliqplus_sub_group = line[1].strip()
+
+        if 'niazmandiha-net-group' == line[0].strip():
+            niazmandiha_net_group = line[1].strip()
+
+        if 'niazmandiha-net-sub-group' == line[0].strip():
+            niazmandiha_net_sub_group = line[1].strip()
+
+        if 'noonerooz-group' == line[0].strip():
+            noonerooz_group = line[1].strip()
+
+        if 'noonerooz-sub-group' == line[0].strip():
+            noonerooz_sub_group = line[1].strip()
+
+        if 'nabzeroz-group' == line[0].strip():
+            nabzeroz_group = line[1].strip()
+
+        if 'nabzeroz-sub-group' == line[0].strip():
+            nabzeroz_sub_group = line[1].strip()
+
+
