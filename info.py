@@ -101,6 +101,24 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'other-sub-sub-group' in line[0]:
             other_sub_sub_group = line[1].strip()
 
+        if 'my-niazerooz-group' == line[0].strip():
+            my_niazerooz_group = line[1].strip()
+
+        if 'my-niazerooz-sub-group' == line[0].strip():
+            my_niazerooz_sub_group = line[1].strip()
+
+        if 'newagahi-group' == line[0].strip():
+            newagahi_group = line[1].strip()
+
+        if 'newagahi-sub-group' == line[0].strip():
+            newagahi_sub_group = line[1].strip()
+
+        if 'decornama-group' == line[0].strip():
+            decornama_group = line[1].strip()
+
+        if 'decornama-sub-group' == line[0].strip():
+            decornama_sub_group = line[1].strip()
+
         if 'netmoj-group' in line[0]:
             netmoj_group = line[1].strip()
 
@@ -110,23 +128,32 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'netmoj-sub-sub-group' in line[0]:
             netmoj_sub_sub_group = line[1].strip()
 
+        if 'darsanat-group' == line[0].strip():
+            darsanat_group = line[1].strip()
+
+        if 'darsanat-sub-group' == line[0].strip():
+            darsanat_sub_group = line[1].strip()
+
         if 'niaz118-group' in line[0]:
             niaz118_group = line[1].strip()
 
         if 'niaz118-sub-group' in line[0]:
             niaz118_sub_group = line[1].strip()
 
-        if 'tehran-tejarat-group' in line[0]:
-            tehran_tejarat_group = line[1].strip()
+        if 'adem-group' == line[0].strip():
+            adem_group = line[1].strip()
 
-        if 'tehran-tejarat-sub-group' in line[0]:
-            tehran_tejarat_sub_group = line[1].strip()
+        if 'adem-sub-group' == line[0].strip():
+            adem_sub_group = line[1].strip()
 
-        if 'vista-group' in line[0]:
-            vista_group = line[1].strip()
+        if 'nasbeagahi-group' == line[0].strip():
+            nasbeagahi_group = line[1].strip()
 
-        if 'vista-sub-group' in line[0]:
-            vista_sub_group = line[1].strip()
+        if 'nasbeagahi-sub-group' == line[0].strip():
+            nasbeagahi_sub_group = line[1].strip()
+
+        if 'nasbeagahi-sub-sub-group' == line[0].strip():
+            nasbeagahi_sub_sub_group = line[1].strip()
 
         if 'agahinama-group' in line[0]:
             agahinama_group = line[1].strip()
@@ -185,14 +212,14 @@ with open('info.txt', 'r', encoding='utf-8') as info:
         if 'xoonrang-sub-group' in line[0]:
             xoonrang_sub_group = line[1].strip()
 
-        if 'jarchi-group' == line[0].strip():
-            jarchi_group = line[1].strip()
+        if 'ruzandish-group' == line[0].strip():
+            ruzandish_group = line[1].strip()
 
-        if 'jarchi-sub-group' == line[0].strip():
-            jarchi_sub_group = line[1].strip()
+        if 'ruzandish-sub-group' == line[0].strip():
+            ruzandish_sub_group = line[1].strip()
 
-        if 'jarchi-sub-sub-group' in line[0].strip():
-            jarchi_sub_sub_group = line[1].strip()
+        if 'ruzandish-sub-sub-group' in line[0].strip():
+            ruzandish_sub_sub_group = line[1].strip()
 
         if 'nama-group' == line[0].strip():
             nama_group = line[1].strip()
@@ -553,5 +580,4 @@ with open('info.txt', 'r', encoding='utf-8') as info:
 
         if 'jaraghe-sub-sub-group' == line[0].strip():
             jaraghe_sub_sub_group = line[1].strip()
-
 

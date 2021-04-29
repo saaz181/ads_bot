@@ -1,8 +1,13 @@
 from robot import *
 from info import _username_, _password_
 import logging
+import time
+
+
+start_time = time.time()
 
 link = [
+        [PostAd6, links[5]],
         [PostAd11, links[10]],
         [PostAd14, links[13]],
         [PostAd21, links[20]],
@@ -14,6 +19,7 @@ link = [
         [PostAd39, links[38]],
         [PostAd67, links[66]],
         [PostAd74, links[73]],
+        [PostAd76, links[75]],
         [PostAd79, links[78]],
         [PostAd81, links[80]],
         [PostAd82, links[81]],
@@ -27,16 +33,18 @@ link = [
 
 for website in link:
     _url_ = website[1]
+
     try:
         ad = website[0](_url_, _username_, _password_)
-        sleep(1)
+        sleep(3)
         ad.close()
 
     except Exception as error:
-        print(error)
-        logging.error(f'Failed at {website[1]}')
+        logging.error(f'{error} at {website[1]}')
 
     except FileNotFoundError:
         pass
 
-close_()
+
+print("\n\n--- %s seconds ---" % (time.time() - start_time))
+

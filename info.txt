@@ -1,5 +1,5 @@
-default_username = saliaz.mg326@gmail.com
-default_password = 0926218867
+default_username =
+default_password =
 
 ##### DIFFERENT USERNAME & PASSWORDS #####
 
@@ -8,29 +8,25 @@ WEBSITE: https://71ap.ir/login/
 71ap-password =
 
 WEBSITE: https://my.niazerooz.com/membership  این سایتش امروز خراب شده برای من بالا نمیاد
-niazerooz-username = 09156455409
-niazerooz-password = 467253
-
-WEBSITE: https://sellfree.ir/
-sellfree-username = 
-sellfree-password =
+niazerooz-username =
+niazerooz-password =
 
 WEBSITE: https://ads.zibashahr.com/user_login/
-zibashahr-username = saaz
-zibashahr-password = oFZIkrVUdRL5
+zibashahr-username =
+zibashahr-password =
 
 WEBSITE: http://darsanat.ir/login_register.php, https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/, https://parstabligh.org/user_login/,
          http://newagahi.ir/login_register.php, https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
 
-most-username = saaz
-most-password = 0926218867
+most-username =
+most-password =
 
 ############################################
 
-title =  سشکینتمبتیسباسینبیخحشس
-description = نسیب نمیسبمی نمسیب یسمنبنمی نیمسب ینمب نمب ینمب یمنب ینمب ینمیبنم یمبن تین یمبن یمنب یمنبن یمنبن یمنبنم یمنب
-short_description = بلالالبتلتالتاننهقفلسبیسربدالننا
-address =  بلالبالبالتتلثبیسبیلبیل
+title =  سلام این اولین تبلیغ من در سایت های تبلیغ میباشد
+description = توضیحات برای آگهی الزامی است و باید تا حدی زیاد باشد که در همه سایت ها بتوان نمایش داد
+short_description = توضیحات کوتاه آگهی در بعضی از سایت ها نیاز است
+address =  ایران،تهران،خیابان ونک ، ونک 8
 province = خراسان رضوی
 city = مشهد
 name =  حسین
@@ -39,12 +35,12 @@ phone =  09121233212
 home-phone = 05132213646
 
 #### بین کلمات کلیدی 2 تا فاصله<space> بذارید ####
-keywords = سیبیسب  بیسبسیبیسب  یسبسیبیسب  سیبیسببی  بیبیبی  یبیبیب  یبیبیبی  یببییبیب  تتفتغ  نتلضق
+keywords = سلام  سلام  محصول  کلمات  کلیدی  وبسایت
 
 website-title =
 website_link =  https://example.com
 picture =  C:\Users\Sabalan\Pictures\index.jpg
-price =  123000
+price =  22000
 email = saliaz.mg@gmail.com
 
 
@@ -53,10 +49,22 @@ email = saliaz.mg@gmail.com
 main-group = کامپیوتر
 main-sub-group =  برنامه نویسی
 
+### https://decornama.com/?component=member&action=new_ads
+decornama-group = بخش تعمیر و نگهداری ساختمان
+decornama-sub-group = لوله بازکنی و تخلیه چاه
+
 #### http://sabzads.com/new, https://googleagahi.com/auth, https://agahiaria.ir/auth ####
 other-group = لوازم الکترونیکی
 other-sub-group =  رایانه
 other-sub-sub-group =  متفرقه
+
+### https://my.niazerooz.com/membership
+my-niazerooz-group = کامپیوتر
+my-niazerooz-sub-group = برنامه نویسی
+
+### http://newagahi.ir/add_estate.php
+newagahi-group = خرید و فروش
+newagahi-sub-group = حراج لوازم فروشگاهی
 
 ### https://www.netmoj.ir/
 netmoj-group =  لوازم الکترونیکی
@@ -67,13 +75,18 @@ netmoj-sub-sub-group =  آموزشی
 niaz118-group = کامپیوتری
 niaz118-sub-group =  آموزشی
 
-### http://www.tehran-tejarat.com/
-tehran-tejarat-group = کامپیوتر
-tehran-tejarat-sub-group =  برنامه نویسی
+### https://nasbeagahi.com/item/new
+nasbeagahi-group = خدمات
+nasbeagahi-sub-group = خدمات آموزشی
+nasbeagahi-sub-sub-group = نرم افزار
 
-### https://vista.ir/ads
-vista-group = کامپیوتر
-vista-sub-group = طراحی سایت
+### http://www.adem.ir/newads/7075
+adem-group = کامیپوتر
+adem-sub-group = برنامه نویسی
+
+### http://darsanat.ir/new
+darsanat-group = کامپیوتر و اینترنت
+darsanat-sub-group = برنامه نویسی
 
 ### https://agahiname.com/
 agahinama-group = لوازم الکترونیکی
@@ -112,10 +125,10 @@ tejjari-sub-sub-sub-group = نرم افزار
 xoonrang-group = لوازم الکترونیک
 xoonrang-sub-group = رایانه
 
-### https://jarchi.me/newad/
-jarchi-group = لوازم الکترونیکی
-jarchi-sub-group = رایانه (کامپیوتر)
-jarchi-sub-sub-group = رایانه رومیزی
+### https://ruzandish.com/%d8%a7%db%8c%d8%ac%d8%a7%d8%af-%d8%a2%da%af%d9%87%db%8c/
+ruzandish-group = سرگرمی و فراغت
+ruzandish-sub-group = آلات موسیقی
+ruzandish-sub-sub-group = سنتی
 
 ### https://100nama.com/user/submit-ad
 nama-group = خدمات
@@ -242,7 +255,7 @@ publik-group = کامپیوتر و اینترنت
 publik-sub-group = برنامه نویسی
 
 ### http://hadafniaz.ir/add_estate.php
-hadafniaz-group = کامپیوترو شبکه
+hadafniaz-group = کامپیوترو اینترنت
 hadafniaz-sub-group = برنامه نویسی
 
 ### http://www.karaads.ir/UserAdmin/AdvertiseNew.aspx

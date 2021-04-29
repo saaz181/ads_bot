@@ -1,3 +1,4 @@
+import time
 from robot import *
 import logging
 from selenium.common.exceptions import NoSuchWindowException
@@ -8,6 +9,7 @@ from info import (_username_, _password_,
                   most_username, most_password
                   )
 
+start_time = time.time()
 
 posts = [
     [PostAd1, links[0]],
@@ -15,7 +17,6 @@ posts = [
     [PostAd3, links[2]],
     [PostAd4, links[3]],
     [PostAd5, links[4]],
-    [PostAd6, links[5]],
     [PostAd7, links[6]],
     [PostAd8, links[7]],
     [PostAd9, links[8]],
@@ -36,7 +37,6 @@ posts = [
     [PostAd31, links[30]],
     # PostAd32 in RUN_CAPTCHA
     [PostAd34, links[33]],
-    [PostAd35, links[34]],
     # PostAd37 in RUN_CAPTCHA
     [PostAd38, links[37]],
     [PostAd40, links[39]],
@@ -67,7 +67,6 @@ posts = [
     [PostAd70, links[69]],
     [PostAd71, links[70]],
     [PostAd75, links[74]],
-    [PostAd76, links[75]],
     [PostAd77, links[76]],
     [PostAd78, links[77]],
     [PostAd80, links[79]],
@@ -93,6 +92,7 @@ different_user_pass_posts = [
     [PostAd22, most_username, most_password, links[21]],
     [PostAd27, sellfree_username, sellfree_password, links[26]],
     [PostAd33, most_username, most_password, links[32]],
+    [PostAd35, most_username, most_password, links[34]],
     [PostAd36, most_username, most_password, links[35]],
     [PostAd61, most_username, most_password, links[60]],
     [PostAd62, zibashahr_username, zibashahr_password, links[61]],
@@ -101,7 +101,6 @@ different_user_pass_posts = [
     [PostAd72, most_username, most_password, links[71]],
     [PostAd73, most_username, most_password, links[72]],
     [PostAd92, most_username, most_password, links[91]],
-
 ]
 
 
@@ -110,15 +109,14 @@ for post in posts:
     try:
         _url_ = post[1]
         ad = post[0](_url_, _username_, _password_)
-        sleep(2)
+        sleep(5)
         ad.close()
 
     except NoSuchWindowException:
         pass
 
     except Exception as error:
-        print(error)
-        logging.error(f"Failed at {post[1]}")
+        logging.error(f"{error} at {post[1]}")
 
 
 # For websites which have different username & password #
@@ -130,8 +128,9 @@ for post in different_user_pass_posts:
         ad.close()
 
     except Exception as error:
-        print(error)
-        logging.error(f"Failed at {post[3]}")
+        logging.error(f"{error} at {post[3]}")
 
 
 close_()
+
+print("\n\n--- %s seconds ---" % (time.time() - start_time))
