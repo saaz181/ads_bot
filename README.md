@@ -1,4 +1,4 @@
-# ads_bot
+# Crawler for Iranina Ads website(s)
 
 This project takes the url of website in website.txt file
 These websites are Iranian website for advertisement and the script crawl them
