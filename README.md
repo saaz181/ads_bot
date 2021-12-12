@@ -7,10 +7,14 @@ You need to provide information in info.txt file and then The crawler go and pos
 
 ***
 ***NOTE***
+
+
 Some websites requires captcha input so 2 seperated file RUN.py & RUN_CAPTCHA.py are for website without captcha & websites for captcha
 that requires to enter the CAPTCHA manually
 ***
 
 ***INSTALLATION***
+
+
 Install packages in requirements.txt file
 then run RUN.py & RUN_CAPTCHA.py file to start the script
