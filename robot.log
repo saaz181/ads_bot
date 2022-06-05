@@ -1,0 +1,49 @@
+2021-07-10 11:39:16,565 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 89
+Current browser version is 91.0.4472.124 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at http://www.soodiran.com
+2021-07-10 11:39:20,847 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 89
+Current browser version is 91.0.4472.124 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at https://www.shahr24.com/
+2021-07-10 11:39:24,789 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 89
+Current browser version is 91.0.4472.124 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at http://digiagahi.com
+2021-07-10 11:39:28,742 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 89
+Current browser version is 91.0.4472.124 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at https://persianagahi.com
+2021-07-10 11:40:37,713 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 89
+Current browser version is 91.0.4472.124 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at http://www.soodiran.com
+2021-07-10 11:41:06,322 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 89
+Current browser version is 91.0.4472.124 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at http://www.soodiran.com
+2021-07-10 11:41:32,992 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 89
+Current browser version is 91.0.4472.124 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at http://www.soodiran.com
+2021-07-10 11:42:21,336 - ERROR - Message: unknown error: cannot determine loading status
+from disconnected: received Inspector.detached event
+  (Session info: chrome=91.0.4472.124)
+ at http://www.soodiran.com
+2022-06-05 16:25:56,066 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 91
+Current browser version is 102.0.5005.63 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at http://www.soodiran.com
+2022-06-05 16:26:00,298 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 91
+Current browser version is 102.0.5005.63 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at https://www.shahr24.com/
+2022-06-05 16:26:04,504 - ERROR - Message: session not created: This version of ChromeDriver only supports Chrome version 91
+Current browser version is 102.0.5005.63 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+ at http://digiagahi.com
+2022-06-05 16:28:53,747 - ERROR - name 'main_group' is not defined at http://www.soodiran.com
+2022-06-05 16:29:04,755 - ERROR - Message: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@id="ClubMenu_UC1_UserNameTBX"]"}
+  (Session info: chrome=102.0.5005.63)
+ at https://www.shahr24.com/
+2022-06-05 18:28:24,126 - ERROR - Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=102.0.5005.63)
+ at http://www.soodiran.com
+2022-06-05 18:30:53,179 - ERROR - Message: unknown error: cannot determine loading status
+from disconnected: received Inspector.detached event
+  (Session info: chrome=102.0.5005.63)
+ at https://www.shahr24.com/
+2022-06-05 18:30:56,265 - ERROR - Message: unknown error: cannot determine loading status
+from disconnected: received Inspector.detached event
+  (Session info: chrome=102.0.5005.63)
+ at http://digiagahi.com
