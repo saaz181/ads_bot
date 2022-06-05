@@ -2,12 +2,10 @@ import time
 from robot import *
 import logging
 from selenium.common.exceptions import NoSuchWindowException
-from info import (_username_, _password_,
-                  ap_username, ap_password,
-                  niazerooz_username, niazerooz_password,
-                  sellfree_username, sellfree_password,
-                  most_username, most_password
-                  )
+from info import (_username_, _password_, most_username, most_password,
+                  ap_username, ap_password, niazerooz_username,
+                  niazerooz_password, sellfree_username,
+                  sellfree_password, zibashahr_username, zibashahr_password)
 
 start_time = time.time()
 
@@ -103,14 +101,13 @@ different_user_pass_posts = [
     [PostAd92, most_username, most_password, links[91]],
 ]
 
-
 # For websites which have same username & password #
 for post in posts:
     try:
         _url_ = post[1]
         ad = post[0](_url_, _username_, _password_)
         sleep(5)
-        ad.close()
+        # ad.close()
 
     except NoSuchWindowException:
         pass
@@ -118,19 +115,17 @@ for post in posts:
     except Exception as error:
         logging.error(f"{error} at {post[1]}")
 
-
 # For websites which have different username & password #
 for post in different_user_pass_posts:
     try:
         _url_ = post[3]
         ad = post[0](_url_, post[1], post[2])
         sleep(2)
-        ad.close()
+        # ad.close()
 
     except Exception as error:
         logging.error(f"{error} at {post[3]}")
 
-
-close_()
+# close_()
 
 print("\n\n--- %s seconds ---" % (time.time() - start_time))

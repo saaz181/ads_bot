@@ -1,25 +1,29 @@
-default_username =
-default_password =
+default_username = askpaper1@gmail.com
+default_password = king1353
 
 ##### DIFFERENT USERNAME & PASSWORDS #####
 
 WEBSITE: https://71ap.ir/login/
-71ap-username =
-71ap-password =
+71ap-username = king1000
+71ap-password = ELwrNr1pbT@r
 
-WEBSITE: https://my.niazerooz.com/membership  این سایتش امروز خراب شده برای من بالا نمیاد
+WEBSITE: https://sellfree.ir/?d=login
+sellfree-username =
+sellfree-password =
+
+WEBSITE: https://my.niazerooz.com/membership
 niazerooz-username =
 niazerooz-password =
 
 WEBSITE: https://ads.zibashahr.com/user_login/
-zibashahr-username =
-zibashahr-password =
+zibashahr-username = king1000
+zibashahr-password = 6zF4o%toX(z@
 
 WEBSITE: http://darsanat.ir/login_register.php, https://agahiroz.com/%d9%88%d8%b1%d9%88%d8%af/, https://parstabligh.org/user_login/,
          http://newagahi.ir/login_register.php, https://www.agahichi.com/%D9%88%D8%B1%D9%88%D8%AF-%D8%B3%D8%A7%DB%8C%D8%AA.html
 
-most-username =
-most-password =
+most-username = king1000
+most-password = king1353
 
 ############################################
 

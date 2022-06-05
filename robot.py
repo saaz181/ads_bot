@@ -13,7 +13,6 @@ import logging
 import pyautogui
 import pytesseract
 import cv2
-from PIL import Image
 from info import *
 
 
@@ -1173,7 +1172,7 @@ class PostAd12(IPostAds):
         # show the ads
         try:
             self.driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/div[2]/'
-                                          'div/main/div/div/div/div[2]/div/a').click()
+                                              'div/main/div/div/div/div[2]/div/a').click()
         except NoSuchElementException:
             pass
 
@@ -1205,13 +1204,17 @@ class PostAd13(IPostAds):
             'شش': 6,
             'هفت': 7,
             'هشت': 8,
-            'نه': 9
+            'نه': 9,
+            'ده': 10,
+            'یازده': 11,
+            'دوازده': 12,
         }
         captcha_txt = captcha_txt.split()
         number = captcha_txt[2][:2]
         alpha_num = captcha_txt[0]
         captcha = persian_number[alpha_num] + int(number)
         self.driver.find_element_by_xpath('//*[@id="cc"]').send_keys(captcha)
+        sleep(2)
 
         # login button
         self.driver.find_element_by_xpath('//*[@id="submitbtn"]').click()
@@ -3861,7 +3864,7 @@ class PostAd38(IPostAds):
 
         # submit button
         element = self.driver.find_element_by_xpath('/html/body/div[8]/div/div/div/section/div/div/div/form/'
-                                          'div[2]/div/div/div[12]/div/button')
+                                                    'div[2]/div/div/div[12]/div/button')
         actions = ActionChains(self.driver)
         actions.move_to_element(element).click().perform()
 
@@ -4133,8 +4136,8 @@ class PostAd43(PostAd7):
     """ https://www.novin-tejarat.com/framework/user/login """
     def ads_page(self):
         page = 'https://www.novin-tejarat.com/ads/addprop'
-        group = novin_tajarat_group
-        sub_group = novin_tajarat_sub_group
+        group = novin_tejarat_group
+        sub_group = novin_tejarat_sub_group
         return page, group, sub_group, province, ''
 
 
